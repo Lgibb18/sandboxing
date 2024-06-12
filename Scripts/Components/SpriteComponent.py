@@ -7,7 +7,6 @@ import Scripts.Engine
 class SpriteComponent(pg.sprite.Sprite, Component):
     def __init__(self, surface : pg.Surface, spriteLayer: int = 4, scale: tuple[float, float] = (1,1)):
         self.spriteLayer = spriteLayer
-        self.color = color
         self.surface = surface
         self.scale = scale
         if(spriteLayer > 8 or spriteLayer < 0):

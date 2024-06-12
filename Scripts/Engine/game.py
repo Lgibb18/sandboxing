@@ -14,7 +14,8 @@ import Scripts.Engine.camera as camera
 class Game:
     def __init__(self):
         pg.init()
-        self.screen = pg.display.set_mode((1280, 800))
+        self.resolution = (1280, 720)
+        self.screen = pg.display.set_mode(self.resolution, pg.RESIZABLE)
         self.sprites = Sprites(self.screen)
         Scripts.Engine.sprites.every_sprites = self.sprites
         self.done = False
@@ -29,7 +30,7 @@ class Game:
 
         def_entity = Entity(
             "Ground",
-            Transform((1280/2,800), (1280, 50)),
+            Transform((self.resolution[0] / 2,self.resolution[1]), (self.resolution[0], 50)),
             [
                 SpriteComponent(pg.image.load("Sprites/white.png"), LAYER_1_GROUND),
                 PhysicsComponent(self.space, pm.Body.STATIC)
@@ -72,8 +73,9 @@ class Game:
                         "NahObject",
                         Transform(camera.mouse_pos(), (50, 50)),
                         [
-                            SpriteComponent(pg.image.load("Sprites/random.png"), LAYER_5_OVER_OBJECTS),
-                            DraggableComponent()
+                            SpriteComponent(pg.image.load("Sprites/db.png"), LAYER_5_OVER_OBJECTS),
+                            PhysicsComponent(self.space, pm.Body.KINEMATIC),
+                            DraggableComponent(False)
                         ]
                     )
                     all_entities.append(def_entity)
