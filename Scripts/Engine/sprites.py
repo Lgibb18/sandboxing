@@ -11,3 +11,6 @@ class Sprites:
 
     def draw(self):
         self.all_sprites.draw(self.screen)  # Draw the images of all sprites.
+
+
+every_sprites = None

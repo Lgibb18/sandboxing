@@ -1,3 +1,4 @@
+import Scripts.Engine.sprites
 from Scripts.Engine.utils import *
 from Scripts.Engine.entity import *
 from Scripts.Components.PhysicsComponent import *
@@ -7,6 +8,8 @@ class Game:
     def __init__(self):
         pg.init()
         self.screen = pg.display.set_mode((1280, 800))
+        self.sprites = Sprites(self.screen)
+        Scripts.Engine.sprites.every_sprites = self.sprites
         self.done = False
         self.clock = pg.time.Clock()
         icon = pg.image.load("Sprites/db.png")
@@ -24,7 +27,6 @@ class Game:
             lin.elasticity = 0.99
             self.space.add(lin)
         self.all_objects = []
-        self.sprites = Sprites(self.screen)
 
     def run(self):
         while not self.done:
@@ -47,7 +49,7 @@ class Game:
                     def_entity = Entity(
                         "PhysicsObject",
                         Transform(pg.mouse.get_pos(), (50, 50)),
-                        [SpriteComponent(pg.image.load("Sprites/db.png"), self.sprites), PhysicsComponent(self.space)]
+                        [SpriteComponent(pg.image.load("Sprites/db.png")), PhysicsComponent(self.space)]
                     )
                     self.all_objects.append(def_entity)
                 if event.button == 3:  # Left mouse button.

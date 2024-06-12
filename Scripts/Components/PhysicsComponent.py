@@ -1,7 +1,6 @@
 from Scripts.Engine.entity import *
 from Scripts.Engine.component import *
 from Scripts.Engine.utils import *
-from Scripts.Engine.components import *
 class PhysicsComponent(Component):
     def __init__(self, space: pm.Space, bodyType: int = pm.Body.DYNAMIC, mass: float = 1, friction: float = .99,
                  elasticity: float = 0):
@@ -27,4 +26,6 @@ class PhysicsComponent(Component):
         entity.transform.position = flipy(self.body.position)
         entity.transform.rotation = math.degrees(self.body.angle)
         if entity.transform.position[1] > 2000:
-            self.space.remove(self.body, self.shape)
+            try:
+                self.space.remove(self.body, self.shape)
+            except: pass

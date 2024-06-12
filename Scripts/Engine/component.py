@@ -1,5 +1,6 @@
 from Scripts.Engine.entity import *
 
+
 class Component:
 
 
@@ -12,3 +13,8 @@ class Component:
         print(1)
         pass
 
+def get_component(component : Component, entity : Entity):
+    for componen in entity.components:
+        if componen.__class__.__name__ == component.__class__.__name__:
+            return True, componen
+    return False, None
