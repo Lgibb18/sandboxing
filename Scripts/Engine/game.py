@@ -8,7 +8,8 @@ from Scripts.Engine.sprites import *
 from Scripts.Engine.component import *
 from Scripts.Engine.events import *
 all_entities : list[Entity] = []
-
+import Scripts.Engine.sprites as sprites
+import Scripts.Engine.camera as camera
 
 class Game:
     def __init__(self):
@@ -25,17 +26,20 @@ class Game:
         self.space = pm.Space()
         self.space.gravity = Vec2d(0.0, -900.0)
         self.space.damping = .9
-        self.static_lines = [
-            pm.Segment(self.space.static_body, flipy((0, 780.0)), flipy((1280.0, 780.0)), 20),
-            ]
-        for lin in self.static_lines:
-            lin.friction = 0.2
-            lin.elasticity = 0.99
-            self.space.add(lin)
 
+        def_entity = Entity(
+            "Ground",
+            Transform((1280/2,800), (1280, 50)),
+            [
+                SpriteComponent(pg.image.load("Sprites/white.png"), LAYER_1_GROUND),
+                PhysicsComponent(self.space, pm.Body.STATIC)
+            ]
+        )
+        all_entities.append(def_entity)
     def run(self):
         while not self.done:
             self.dt = self.clock.tick(60) / 1000
+            camera.main.update()
             self.run_logic()
             self.draw()
             self.handle_events()
@@ -54,7 +58,7 @@ class Game:
                     # Spawn an entity.
                     def_entity = Entity(
                         "PhysicsObject",
-                        Transform(pg.mouse.get_pos(), (50, 50)),
+                        Transform(camera.mouse_pos(), (50, 50)),
                         [
                             SpriteComponent(pg.image.load("Sprites/db.png"), LAYER_4_OBJECTS),
                             PhysicsComponent(self.space),
@@ -66,7 +70,7 @@ class Game:
                     # Spawn an entity.
                     def_entity = Entity(
                         "NahObject",
-                        Transform(pg.mouse.get_pos(), (50, 50)),
+                        Transform(camera.mouse_pos(), (50, 50)),
                         [
                             SpriteComponent(pg.image.load("Sprites/random.png"), LAYER_5_OVER_OBJECTS),
                             DraggableComponent()
@@ -89,9 +93,4 @@ class Game:
     def draw(self):
         self.screen.fill(pg.Color(134, 183, 181))
         self.sprites.draw()
-        for line in self.static_lines:
-            body = line.body
-            p1 = flipy(body.position + line.a.rotated(body.angle))
-            p2 = flipy(body.position + line.b.rotated(body.angle))
-            pg.draw.lines(self.screen, pg.Color('lightgray'), False, (p1, p2), 40)
         pg.display.flip()

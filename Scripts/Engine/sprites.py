@@ -1,5 +1,8 @@
+import random
+import Scripts
 import pygame as pg
-
+import Scripts.Engine.camera as camera
+from Scripts.Engine.utils import *
 LAYER_0_UNDER_GROUND = 0
 LAYER_1_GROUND = 1
 LAYER_2_OVER_GROUND = 2
@@ -27,10 +30,21 @@ class Sprites:
         for i in self.all_sprites:
             i.update()
 
+
+
     def draw(self):
+
+
         for i in self.all_sprites:
+            for sprite in i.sprites():
+                sprite.rect.x += camera.main.pos[0]
+                sprite.rect.y += camera.main.pos[1]
             i.draw(self.screen)  # Draw the images of all sprites.
 
 
-
 every_sprites = None
+
+
+def mouse_pos():
+    m = pg.mouse.get_pos()
+    return (m[0] - camera.main.pos[0], m[1] - camera.main.pos[1])
