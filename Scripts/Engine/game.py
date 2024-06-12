@@ -6,6 +6,10 @@ from Scripts.Components.SpriteComponent import *
 from Scripts.Components.DraggableComponent import *
 from Scripts.Engine.sprites import *
 from Scripts.Engine.component import *
+from Scripts.Engine.events import *
+all_entities : list[Entity] = []
+
+
 class Game:
     def __init__(self):
         pg.init()
@@ -28,33 +32,21 @@ class Game:
             lin.friction = 0.2
             lin.elasticity = 0.99
             self.space.add(lin)
-        self.all_entities : list[Entity] = []
-        self.dragging_object = None
-        self.mrel = (0,0)
 
     def run(self):
         while not self.done:
-            if self.dragging_object != None:
-                self.dragging_object.transform.position = pg.mouse.get_pos()
-                print(get_component(PhysicsComponent, self.dragging_object)[0])
-                if (get_component(PhysicsComponent, self.dragging_object)[0]):
-                    print(pg.mouse.get_rel())
-                    b: PhysicsComponent = get_component(PhysicsComponent, self.dragging_object)[1]
-                    b.body.position = flipy(pg.mouse.get_pos())
-                    b.shape.body.velocity = Vec2d(self.mrel[0] *5, -self.mrel[1] *5)
-                    print(str(b.shape.body.velocity.x) + ", " + str(b.shape.body.velocity.y))
             self.dt = self.clock.tick(60) / 1000
             self.run_logic()
             self.draw()
             self.handle_events()
             self.current_fps = self.clock.get_fps()
-            self.mrel = pg.mouse.get_rel()
 
         pg.quit()
 
 
     def handle_events(self):
-        for event in pg.event.get():
+        Events()
+        for event in Scripts.Engine.events.event_list:
             if event.type == pg.QUIT:
                 self.done = True
             elif event.type == pg.KEYDOWN:
@@ -66,28 +58,23 @@ class Game:
                         [
                             SpriteComponent(pg.image.load("Sprites/db.png"), LAYER_4_OBJECTS),
                             PhysicsComponent(self.space),
+                            DraggableComponent()
                         ]
                     )
-                    self.all_entities.append(def_entity)
+                    all_entities.append(def_entity)
                 if event.key == pg.K_q:  # Left mouse button.
                     # Spawn an entity.
                     def_entity = Entity(
                         "NahObject",
                         Transform(pg.mouse.get_pos(), (50, 50)),
                         [
-                            SpriteComponent(pg.image.load("Sprites/random.png"), LAYER_5_OVER_OBJECTS)
+                            SpriteComponent(pg.image.load("Sprites/random.png"), LAYER_5_OVER_OBJECTS),
+                            DraggableComponent()
                         ]
                     )
-                    self.all_entities.append(def_entity)
-            elif event.type == pg.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    for entity in self.all_entities:
-                        if(collision_check(pg.mouse.get_pos(), entity.transform.position, entity.transform.scale)):
-                            self.dragging_object = entity
-                            break
-            elif event.type == pg.MOUSEBUTTONUP:
-                if event.button == 1:
-                    self.dragging_object = None
+                    all_entities.append(def_entity)
+
+
 
 
 
@@ -95,7 +82,7 @@ class Game:
     def run_logic(self):
         self.space.step(1/60)
         self.sprites.run_logic()
-        for obj in self.all_entities:
+        for obj in all_entities:
             obj.update()
 
 
