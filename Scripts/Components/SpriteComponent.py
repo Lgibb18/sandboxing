@@ -18,12 +18,9 @@ class SpriteComponent(pg.sprite.Sprite, Component):
 
 
     def Update(self, entity: Entity):
-        for component in entity.components:
-            if component.__class__.__name__ == "PhysicsComponent":
-                self.rect.center = flipy(component.body.position)
-                self.image = pg.transform.rotate(self.orig_image, math.degrees(component.body.angle))
-                self.rect = self.image.get_rect(center=self.rect.center)
-                if self.rect.y > 2000:
-                    component.space.remove(component.body, component.shape)
-                    self.kill()
+        self.rect.center = entity.transform.position
+        self.image = pg.transform.rotate(self.orig_image, entity.transform.rotation)
+        self.rect = self.image.get_rect(center=self.rect.center)
+        if self.rect.y > 2000:
+            self.kill()
 

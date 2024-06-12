@@ -7,11 +7,13 @@ import importlib.util
 class Transform:
     position : tuple[int, int] = (0,0)
     scale : tuple[float, float] = (50,50)
+    rotation : float = 0
     isUI : bool = False
 
-    def __init__(self, position : tuple[int, int] = (0, 0), scale : tuple[float, float] = (50,50)):
+    def __init__(self, position : tuple[int, int] = (0, 0), scale : tuple[float, float] = (50,50), rotation : float = 0):
         self.position = position
         self.scale = scale
+        self.rotation = rotation
 
 class Entity:
     name: str = None

@@ -1,7 +1,7 @@
 from Scripts.Engine.entity import *
 from Scripts.Engine.component import *
 from Scripts.Engine.utils import *
-
+from Scripts.Engine.components import *
 class PhysicsComponent(Component):
     def __init__(self, space: pm.Space, bodyType: int = pm.Body.DYNAMIC, mass: float = 1, friction: float = .99,
                  elasticity: float = 0):
@@ -21,11 +21,10 @@ class PhysicsComponent(Component):
         self.body.position = entity.transform.position
         self.space = self.space
         self.space.add(self.body, self.shape)
+        entity.transform.position = flipy(self.body.position)
+        entity.transform.rotation = math.degrees(self.body.angle)
     def Update(self, entity: Entity):
-        pass
-        # entity.rect.center = flipy(self.body.position)
-        # entity.image = pg.transform.rotate(entity.orig_image, math.degrees(self.body.angle))
-        # entity.rect = entity.image.get_rect(center=entity.rect.center)
-        # if entity.rect.y > 2000:
-        #     self.space.remove(self.body, self.shape)
-        #     entity.kill()
+        entity.transform.position = flipy(self.body.position)
+        entity.transform.rotation = math.degrees(self.body.angle)
+        if entity.transform.position[1] > 2000:
+            self.space.remove(self.body, self.shape)
