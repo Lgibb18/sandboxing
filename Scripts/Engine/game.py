@@ -1,6 +1,8 @@
 from Scripts.Engine.utils import *
 from Scripts.Engine.entity import *
 from Scripts.Components.PhysicsComponent import *
+from Scripts.Components.SpriteComponent import *
+from Scripts.Engine.sprites import *
 class Game:
     def __init__(self):
         pg.init()
@@ -21,18 +23,19 @@ class Game:
             lin.friction = 0.2
             lin.elasticity = 0.99
             self.space.add(lin)
-
-        self.all_sprites = pg.sprite.Group()
+        self.all_objects = []
+        self.sprites = Sprites(self.screen)
 
     def run(self):
         while not self.done:
             self.dt = self.clock.tick(60) / 1000
-            self.handle_events()
             self.run_logic()
             self.draw()
+            self.handle_events()
             self.current_fps = self.clock.get_fps()
 
         pg.quit()
+
 
     def handle_events(self):
         for event in pg.event.get():
@@ -42,35 +45,32 @@ class Game:
                 if event.button == 1:  # Left mouse button.
                     # Spawn an entity.
                     def_entity = Entity(
-                        pg.image.load("Sprites/db.png"),
                         "PhysicsObject",
                         Transform(pg.mouse.get_pos(), (50, 50)),
-                        [PhysicsComponent(self.space)]
+                        [SpriteComponent(pg.image.load("Sprites/db.png"), self.sprites), PhysicsComponent(self.space)]
                     )
-                    self.all_sprites.add(def_entity)
+                    self.all_objects.append(def_entity)
                 if event.button == 3:  # Left mouse button.
                     # Spawn an entity.
                     def_entity = Entity(
-                        pg.image.load("Sprites/db.png"),
                         "DefaultObject",
                         Transform(pg.mouse.get_pos(), (50, 50))
                     )
-                    self.all_sprites.add(def_entity)
+                    self.all_objects.append(def_entity)
 
 
     def run_logic(self):
         self.space.step(1/60)
-        self.all_sprites.update()
+        self.sprites.run_logic()
+        for obj in self.all_objects:
+            obj.update()
 
     def draw(self):
         self.screen.fill(pg.Color(134, 183, 181))
-        self.all_sprites.draw(self.screen)  # Draw the images of all sprites.
-        # self.space.debug_draw(pm.pygame_util.DrawOptions(self.screen))
-        # Draw the static lines.
+        self.sprites.draw()
         for line in self.static_lines:
             body = line.body
             p1 = flipy(body.position + line.a.rotated(body.angle))
             p2 = flipy(body.position + line.b.rotated(body.angle))
             pg.draw.lines(self.screen, pg.Color('lightgray'), False, (p1, p2), 40)
-
         pg.display.flip()

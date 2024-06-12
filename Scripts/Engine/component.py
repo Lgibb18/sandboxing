@@ -1,9 +1,14 @@
 from Scripts.Engine.entity import *
 
 class Component:
-    def start(self, entity: Entity):
+
+
+    def __init__(self):
+        pass
+    def Start(self, entity: Entity):
         pass
 
-    def update(self, entity: Entity):
+    def Update(self, entity: Entity):
+        print(1)
         pass
 

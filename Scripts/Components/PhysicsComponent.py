@@ -11,7 +11,7 @@ class PhysicsComponent(Component):
         self.friction = friction
         self.elasticity = elasticity
 
-    def start(self, entity: Entity):
+    def Start(self, entity: Entity):
         entity.transform.position = flipy(entity.transform.position)
         moment = pm.moment_for_box(self.mass, (entity.transform.scale[0], entity.transform.scale[1]))
         self.body = pm.Body(self.mass, moment, self.bodyType)
@@ -21,10 +21,11 @@ class PhysicsComponent(Component):
         self.body.position = entity.transform.position
         self.space = self.space
         self.space.add(self.body, self.shape)
-    def update(self, entity: Entity):
-        entity.rect.center = flipy(self.body.position)
-        entity.image = pg.transform.rotate(entity.orig_image, math.degrees(self.body.angle))
-        entity.rect = entity.image.get_rect(center=entity.rect.center)
-        if entity.rect.y > 2000:
-            self.space.remove(self.body, self.shape)
-            entity.kill()
+    def Update(self, entity: Entity):
+        pass
+        # entity.rect.center = flipy(self.body.position)
+        # entity.image = pg.transform.rotate(entity.orig_image, math.degrees(self.body.angle))
+        # entity.rect = entity.image.get_rect(center=entity.rect.center)
+        # if entity.rect.y > 2000:
+        #     self.space.remove(self.body, self.shape)
+        #     entity.kill()
