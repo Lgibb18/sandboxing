@@ -1,5 +1,3 @@
-import math
-import random
 import pygame as pg
 import pymunk as pm
 from pymunk import Vec2d

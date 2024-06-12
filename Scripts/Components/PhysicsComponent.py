@@ -1,6 +1,6 @@
 from Scripts.Engine.entity import *
 from Scripts.Engine.component import *
-
+from Scripts.Engine.utils import *
 
 class PhysicsComponent(Component):
     def __init__(self, space: pm.Space, bodyType: int = pm.Body.DYNAMIC, mass: float = 1, friction: float = .99,
