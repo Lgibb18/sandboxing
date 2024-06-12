@@ -31,9 +31,11 @@ class Entity:
         self.transform = transform
         self.components = components
         for component in components:
-            component.Start(self)
+            if component.active:
+                component.Start(self)
 
 
     def update(self):
         for component in self.components:
-            component.Update(self)
+            if component.active:
+                component.Update(self)
