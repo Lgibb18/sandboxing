@@ -17,3 +17,9 @@ def collision_check(pos1, pos2, scale):
         return True
     else:
         return False
+
+def vec_diff(first : tuple, second : tuple):
+    return (first[0] - second[0], first[1] - second[1])
+
+def vec_add(first : tuple, second : tuple):
+    return (first[0] + second[0], first[1] + second[1])

@@ -30,7 +30,7 @@ class Game:
 
         def_entity = Entity(
             "Ground",
-            Transform((self.resolution[0] / 2,self.resolution[1]), (self.resolution[0], 50)),
+            Transform((self.resolution[0] / 2,self.resolution[1]), (self.resolution[0]*50, 50)),
             [
                 SpriteComponent(pg.image.load("Sprites/white.png"), LAYER_1_GROUND),
                 PhysicsComponent(self.space, pm.Body.STATIC)
@@ -62,7 +62,7 @@ class Game:
                         Transform(camera.mouse_pos(), (50, 50)),
                         [
                             SpriteComponent(pg.image.load("Sprites/db.png"), LAYER_4_OBJECTS),
-                            PhysicsComponent(self.space),
+                            PhysicsComponent(self.space, pm.Body.DYNAMIC),
                             DraggableComponent()
                         ]
                     )
