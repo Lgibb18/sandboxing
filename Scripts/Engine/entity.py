@@ -16,27 +16,33 @@ class Transform:
         self.scale = scale
         self.rotation = rotation
 
+
 class Entity:
+    id: str = None
     name: str = None
     transform : Transform = None
     components : list[classmethod] = None
+    created : bool = False
 
     m = importlib.util.spec_from_file_location("Component", "/component.py")
     def __init__(self,
+                 id: str,
                  name: str = "Object",
-                 transform: Transform = Transform(),
                  components: list[m] = []
                  ):
-        super().__init__()
+        self.id = id
         self.name = name
-        self.transform = transform
         self.components = components
-        for component in components:
-            if component.active:
-                component.Start(self)
 
 
-    def update(self):
+    def instantiate(self, transform : Transform = Transform()):
+        self.transform = transform
+        self.created = True
         for component in self.components:
             if component.active:
-                component.Update(self)
+                component.Start(self)
+    def update(self):
+        if self.created:
+            for component in self.components:
+                if component.active:
+                    component.Update(self)

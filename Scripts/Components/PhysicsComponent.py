@@ -1,10 +1,11 @@
 from Scripts.Engine.entity import *
 from Scripts.Engine.component import *
 from Scripts.Engine.utils import *
+import Scripts.Engine.game as game
 class PhysicsComponent(Component):
-    def __init__(self, space: pm.Space, bodyType: int = pm.Body.DYNAMIC, mass: float = 1, friction: float = .99,
+    def __init__(self, bodyType: int = pm.Body.DYNAMIC, mass: float = 1, friction: float = .99,
                  elasticity: float = 0):
-        self.space = space
+        self.space = game.space
         self.bodyType = bodyType
         self.mass = mass
         self.friction = friction
