@@ -55,7 +55,7 @@ class Console:
                     self.text = self.last_command
                     self.text_color = (255, 255, 255)
                 events.keyboard_list = []
-            if key == pg.K_BACKQUOTE:
+            if key == pg.K_BACKQUOTE or key == 1105 : #1105 = ё
                 self.enabled = not self.enabled
                 self.text = ""
                 self.text_color = (255, 255, 255)

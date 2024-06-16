@@ -12,6 +12,7 @@ from Scripts.Components.DraggableComponent import *
 
 
 class PlanksEntity:
+    canBeInMenu = True
     def __new__(cls, *args, **kwargs):
         instance = super().__new__(cls)
         return instance

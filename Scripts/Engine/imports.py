@@ -1,1 +1,1 @@
-from Scripts.Entities.planksEntity import *
+from Scripts.Entities import *

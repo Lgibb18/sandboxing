@@ -48,8 +48,8 @@ class Game:
 
     def handle_events(self):
         Events()
-        self.inventory.update()
         self.console.update()
+        self.inventory.update()
         for event in events.event_list:
             if event.type == pg.QUIT:
                 self.done = True

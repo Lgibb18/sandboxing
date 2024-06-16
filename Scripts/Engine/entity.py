@@ -2,6 +2,7 @@ import pygame as pg
 import pymunk as pm
 from pymunk import Vec2d
 import pymunk.pygame_util
+
 from Scripts.Engine.utils import *
 import importlib.util
 import asyncio
@@ -22,17 +23,25 @@ class Entity:
     name: str = None
     transform : Transform = None
     components : list[classmethod] = None
+    icon : pg.Surface = None
     created : bool = False
 
     m = importlib.util.spec_from_file_location("Component", "/component.py")
     def __init__(self,
                  id: str,
                  name: str = "Object",
-                 components: list[m] = []
+                 components: list[m] = [],
+                 icon : pg.Surface = None
                  ):
         self.id = id
         self.name = name
         self.components = components
+        self.icon = icon
+        if icon == None:
+            for comp in self.components:
+                if comp.__class__.__name__ == "SpriteComponent":
+                    self.icon = comp.surface
+
 
 
     def instantiate(self, transform : Transform = Transform()):
