@@ -14,25 +14,36 @@ import Scripts.Engine.events as events
 from Scripts.Engine.inventory import *
 from Scripts.Engine.entities import *
 space = pm.Space()
+
+
 class Game:
     def __init__(self):
         pg.init()
         self.resolution = (1280, 720)
         self.screen = pg.display.set_mode(self.resolution, pg.RESIZABLE)
+        icon = pg.image.load("Sprites/db.png")
+        pg.display.set_icon(icon)
+        pg.display.set_caption('Nighty box 2', 'nb2')
+
+
         self.sprites = Sprites(self.screen)
         Scripts.Engine.sprites.every_sprites = self.sprites
         self.console = Console(self.screen)
         self.inventory = Inventory(self.screen)
+
+
+
         self.done = False
         self.clock = pg.time.Clock()
-        icon = pg.image.load("Sprites/db.png")
-        pg.display.set_icon(icon)
-        pg.display.set_caption('Nighty box 2', 'nb2')
-        # Pymunk stuff
-        #self.space = pm.Space()
+
         space.gravity = Vec2d(0.0, -900.0)
         space.damping = .9
+
         Instantiate("map", Transform((self.resolution[0] / 2,self.resolution[1]), (self.resolution[0]*50, 50)))
+
+        self.dt = 0
+        self.current_fps = 0
+
     def run(self):
         while not self.done:
             self.dt = self.clock.tick(60) / 1000
@@ -53,6 +64,7 @@ class Game:
         for event in events.event_list:
             if event.type == pg.QUIT:
                 self.done = True
+
 
 
 

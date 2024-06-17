@@ -24,7 +24,7 @@ class Sprites:
                             pg.sprite.Group(),
                             pg.sprite.Group(),
                             pg.sprite.Group()]
-        self.screen = screen
+        self.screen : pg.Surface = screen
 
     def run_logic(self):
         for i in self.all_sprites:
@@ -34,15 +34,48 @@ class Sprites:
 
     def draw(self):
 
-
+        n = 0
         for i in self.all_sprites:
-            for sprite in i.sprites():
-                sprite.rect.x += camera.main.pos[0]
-                sprite.rect.y += camera.main.pos[1]
-            i.draw(self.screen)  # Draw the images of all sprites.
+            if n not in disabled_layers:
+                for sprite in i.sprites():
+                    sprite.rect.x += camera.main.pos[0]
+                    sprite.rect.y += camera.main.pos[1]
+                i.draw(self.screen)  # Draw the images of all sprites.
+                if len(Scripts.Engine.sprites.to_blit) > 8:
+                    for surf in Scripts.Engine.sprites.to_blit[n]:
+                        self.screen.blit(surf[0], surf[1])
+            n += 1
+        Scripts.Engine.sprites.to_blit = [
+            [], # 1
+            [], # 2
+            [], # 3
+            [], # 4
+            [], # 5
+            [], # 6
+            [], # 7
+            [], # 8
+            []  # 9
+        ]
 
 
-every_sprites = None
+every_sprites : Sprites = None
+disabled_layers = []
+to_blit : list[list[tuple[pg.Surface, tuple[int, int]]]] = [
+    [], # 1
+    [], # 2
+    [], # 3
+    [], # 4
+    [], # 5
+    [], # 6
+    [], # 7
+    [], # 8
+    []  # 0
+]
+def blit_layer(surface : pg.Surface, pos : tuple[int, int], layer : int):
+    if layer not in disabled_layers:
+        if layer in range(0,8):
+            to_blit[layer].append((surface, pos))
+
 
 
 def mouse_pos():
