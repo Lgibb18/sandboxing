@@ -1,8 +1,6 @@
-import random
-import Scripts
+import Engine.Scripts.camera as camera
 import pygame as pg
-import Scripts.Engine.camera as camera
-from Scripts.Engine.utils import *
+import Engine
 LAYER_0_UNDER_GROUND = 0
 LAYER_1_GROUND = 1
 LAYER_2_OVER_GROUND = 2
@@ -41,11 +39,11 @@ class Sprites:
                     sprite.rect.x += camera.main.pos[0]
                     sprite.rect.y += camera.main.pos[1]
                 i.draw(self.screen)  # Draw the images of all sprites.
-                if len(Scripts.Engine.sprites.to_blit) > 8:
-                    for surf in Scripts.Engine.sprites.to_blit[n]:
+                if len(Engine.Scripts.sprites.to_blit) > 8:
+                    for surf in Engine.Scripts.sprites.to_blit[n]:
                         self.screen.blit(surf[0], surf[1])
             n += 1
-        Scripts.Engine.sprites.to_blit = [
+        Engine.Scripts.sprites.to_blit = [
             [], # 1
             [], # 2
             [], # 3
@@ -77,7 +75,7 @@ def blit_layer(surface : pg.Surface, pos : tuple[int, int], layer : int):
             to_blit[layer].append((surface, pos))
 
 def draw_debug(pos : tuple[int, int], size : tuple[int, int]):
-    temp = pg.image.load("Sprites/white.png")
+    temp = pg.image.load("Engine/Sprites/white.png")
     temp = pg.transform.scale(temp, size).convert_alpha()
     temp.fill((0, 255, 0, 128))
     blit_layer(temp, pos, LAYER_7_UI)

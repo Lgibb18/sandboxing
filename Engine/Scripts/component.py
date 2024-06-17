@@ -1,4 +1,4 @@
-from Scripts.Engine.entity import *
+from Engine.Scripts.entity import *
 
 
 class Component:

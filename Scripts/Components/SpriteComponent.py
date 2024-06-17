@@ -1,7 +1,6 @@
-from Scripts.Engine.entity import *
 from Scripts.Components.PhysicsComponent import *
 import pygame as pg
-import Scripts.Engine
+import Engine.Scripts.sprites as sprites
 
 
 class SpriteComponent(pg.sprite.Sprite, Component):
@@ -18,7 +17,7 @@ class SpriteComponent(pg.sprite.Sprite, Component):
         self.orig_image = pg.transform.scale(self.orig_image, (entity.transform.scale[0] * self.scale[0], entity.transform.scale[1] * self.scale[1]))
         self.image = self.orig_image
         self.rect = self.image.get_rect(center=entity.transform.position)
-        Scripts.Engine.sprites.every_sprites.all_sprites[self.spriteLayer].add(self)
+        sprites.every_sprites.all_sprites[self.spriteLayer].add(self)
 
 
     def Update(self, entity: Entity):

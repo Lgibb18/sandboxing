@@ -1,7 +1,8 @@
-from Scripts.Engine.entity import *
-from Scripts.Engine.component import *
-from Scripts.Engine.utils import *
-import Scripts.Engine.game as game
+from Engine.Scripts.component import *
+from Engine.Scripts.utils import *
+import Engine.Scripts.game as game
+import pymunk as pm
+import math
 class PhysicsComponent(Component):
     def __init__(self, bodyType: int = pm.Body.DYNAMIC, mass: float = 1, friction: float = .99,
                  elasticity: float = 0):

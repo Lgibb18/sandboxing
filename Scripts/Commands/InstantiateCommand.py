@@ -1,6 +1,6 @@
-import Scripts.Engine.commands as commands
-from Scripts.Engine.entities import *
-import Scripts.Engine.camera as camera
+import Engine.Scripts.commands as commands
+from Engine.Scripts.entities import *
+import Engine.Scripts.camera as camera
 class InstantiateCommand:
     def __init__(self, name):
         commands.all_commands[name] = self

@@ -1,4 +1,4 @@
-import Scripts.Engine.commands as commands
+import Engine.Scripts.commands as commands
 
 class PrintCommand:
     def __init__(self, name):

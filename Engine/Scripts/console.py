@@ -1,8 +1,7 @@
-import pygame as pg
-import Scripts
-import Scripts.Engine.events as events
-from Scripts.Engine.commands import *
-from Scripts.Commands import *
+import Engine.Scripts.events as events
+from Engine.Scripts.commands import *
+
+
 class Console:
     def __init__(self, screen : pg.Surface):
         self.text = ""

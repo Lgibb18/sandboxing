@@ -1,5 +1,5 @@
 import pygame as pg
-import Scripts.Engine.camera as camera
+import Engine.Scripts.camera as camera
 class Camera:
     def __init__(self):
         self.pos = (0,0)

@@ -1,5 +1,6 @@
 import pygame as pg
 
+
 class Commands:
     def __init__(self):
         pass

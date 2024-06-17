@@ -1,18 +1,10 @@
-import Scripts.Engine.sprites
-from Scripts.Engine.utils import *
-from Scripts.Engine.entity import *
-from Scripts.Components.PhysicsComponent import *
-from Scripts.Components.SpriteComponent import *
-from Scripts.Components.DraggableComponent import *
-from Scripts.Engine.sprites import *
-from Scripts.Engine.component import *
-from Scripts.Engine.events import *
-import Scripts.Engine.sprites as sprites
-import Scripts.Engine.camera as camera
-from Scripts.Engine.console import *
-import Scripts.Engine.events as events
-from Scripts.Engine.inventory import *
-from Scripts.Engine.entities import *
+import Engine.Scripts.sprites
+from Engine.Scripts.events import *
+from Engine.Scripts.console import *
+from Engine.Scripts.inventory import *
+from Engine.Scripts.entities import *
+from pymunk import Vec2d
+import pymunk as pm
 space = pm.Space()
 
 
@@ -27,7 +19,7 @@ class Game:
 
 
         self.sprites = Sprites(self.screen)
-        Scripts.Engine.sprites.every_sprites = self.sprites
+        Engine.Scripts.sprites.every_sprites = self.sprites
         self.console = Console(self.screen)
         self.inventory = Inventory(self.screen)
 

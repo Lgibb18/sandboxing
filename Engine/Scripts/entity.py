@@ -1,11 +1,7 @@
-import pygame as pg
-import pymunk as pm
-from pymunk import Vec2d
-import pymunk.pygame_util
-
-from Scripts.Engine.utils import *
 import importlib.util
-import asyncio
+import pygame as pg
+
+
 class Transform:
     position : tuple[int, int] = (0,0)
     scale : tuple[float, float] = (50,50)
@@ -26,7 +22,7 @@ class Entity:
     icon : pg.Surface = None
     created : bool = False
 
-    m = importlib.util.spec_from_file_location("Component", "/component.py")
+    m = importlib.util.spec_from_file_location("Component", "component.py")
     def __init__(self,
                  id: str,
                  name: str = "Object",

@@ -1,10 +1,9 @@
-import pygame as pg
-import Scripts.Engine.events as events
-from Scripts.Engine.entities import *
-from Scripts.Engine.camera import *
-import Scripts.Engine.sprites as sprites
-from Scripts.Engine.sprites import *
-from Scripts.Engine.utils import *
+import Engine.Scripts.events as events
+from Engine.Scripts.entities import *
+from Engine.Scripts.camera import *
+import Engine.Scripts.sprites as sprites
+from Engine.Scripts.sprites import *
+from Engine.Scripts.utils import *
 class Cell:
     pos : tuple[int, int] = (0,0)
     def __init__(self, entity, surface, number):
@@ -31,7 +30,7 @@ class Inventory:
             self.surface = pg.Surface(self.tabSize).convert_alpha()
             self.surface.fill((128, 128, 128, 128))
             #self.screen.blit(self.surface, (0, 0))
-            sprites.blit_layer(self.surface, (0,0), LAYER_7_UI)
+            sprites.blit_layer(self.surface, (0, 0), LAYER_7_UI)
             for cell in self.cells:
                 b : pg.Surface = cell.surface
                 b = pg.transform.scale(b, (self.tabSize[0] / 4, self.tabSize[0] / 4))
@@ -49,10 +48,7 @@ class Inventory:
         for cell in self.cells:
             rect = cell.surface.get_rect()
             if collision_check_topleft(pg.mouse.get_pos(), cell.pos, (self.tabSize[0] / 4, self.tabSize[0] / 4)):
-                temp = pg.image.load("Sprites/white.png")
-                temp =pg.transform.scale(temp, (self.tabSize[0] / 4, self.tabSize[0] / 4)).convert_alpha()
-                temp.fill((0,255,0, 128))
-                sprites.blit_layer(temp, cell.pos, LAYER_7_UI)
+                draw_debug(cell.pos, (self.tabSize[0] / 4, self.tabSize[0] / 4))
                 print(cell.entity.entity.name)
         for key in events.keyboard_list:
             if key == pg.K_TAB:

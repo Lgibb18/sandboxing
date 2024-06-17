@@ -1,6 +1,5 @@
-import Scripts.Engine.commands as commands
-from Scripts.Engine.entities import *
-import Scripts.Engine.camera as camera
+import Engine.Scripts.commands as commands
+import Engine.Scripts.camera as camera
 class PosCommand:
     def __init__(self, name):
         commands.all_commands[name] = self

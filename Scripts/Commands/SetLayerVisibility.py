@@ -1,5 +1,5 @@
-import Scripts.Engine.commands as commands
-import Scripts.Engine.sprites as sprites
+import Engine.Scripts.commands as commands
+import Engine.Scripts.sprites as sprites
 class SetLayerVisibilityCommand:
     def __init__(self, name):
         commands.all_commands[name] = self
