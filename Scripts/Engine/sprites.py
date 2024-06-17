@@ -76,6 +76,12 @@ def blit_layer(surface : pg.Surface, pos : tuple[int, int], layer : int):
         if layer in range(0,8):
             to_blit[layer].append((surface, pos))
 
+def draw_debug(pos : tuple[int, int], size : tuple[int, int]):
+    temp = pg.image.load("Sprites/white.png")
+    temp = pg.transform.scale(temp, size).convert_alpha()
+    temp.fill((0, 255, 0, 128))
+    blit_layer(temp, pos, LAYER_7_UI)
+
 
 
 def mouse_pos():

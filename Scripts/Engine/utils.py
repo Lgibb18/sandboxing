@@ -18,6 +18,16 @@ def collision_check(pos1, pos2, scale):
     else:
         return False
 
+
+def collision_check_topleft(pos1, pos2, scale):
+    if((pos1[0] > pos2[0])
+            and (pos1[0] < pos2[0] + (scale[0]))
+            and (pos1[1] > pos2[1])
+            and (pos1[1] < pos2[1] + (scale[1]))):
+        return True
+    else:
+        return False
+
 def vec_diff(first : tuple, second : tuple):
     return (first[0] - second[0], first[1] - second[1])
 
