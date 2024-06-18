@@ -1,3 +1,5 @@
+import time
+
 import Engine.Scripts.sprites
 from Engine.Scripts.events import *
 from Engine.Scripts.console import *
@@ -5,6 +7,7 @@ from Engine.Scripts.inventory import *
 from Engine.Scripts.entities import *
 from pymunk import Vec2d
 import pymunk as pm
+import Engine.Scripts.clock as clock
 space = pm.Space()
 
 
@@ -24,9 +27,9 @@ class Game:
         self.inventory = Inventory(self.screen)
 
 
-
         self.done = False
         self.clock = pg.time.Clock()
+        clock.main_clock = self.clock
 
         space.gravity = Vec2d(0.0, -900.0)
         space.damping = .9
@@ -64,10 +67,10 @@ class Game:
 
 
     def run_logic(self):
-        space.step(1/60)
+        if self.current_fps > 0:
+            space.step((1/60))
         entities_update()
         self.sprites.run_logic()
-
 
     def draw(self):
         self.screen.fill(pg.Color(134, 183, 181))
@@ -75,3 +78,4 @@ class Game:
         self.inventory.draw()
         self.console.draw()
         pg.display.flip()
+

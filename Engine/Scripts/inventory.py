@@ -1,3 +1,5 @@
+import time
+
 import Engine.Scripts.events as events
 from Engine.Scripts.entities import *
 from Engine.Scripts.camera import *
@@ -17,7 +19,8 @@ class Inventory:
         self.screen = screen
         self.active = True
         self.cells = []
-
+        self.selected : str = "planks"
+        self.tabSize = (0,0)
         n = 0
         for i in list(all_entities.values()):
             self.cells.append(Cell(i, i.entity.icon, n))
@@ -29,7 +32,6 @@ class Inventory:
             self.tabSize = (resolution[0] / 5, resolution[1])
             self.surface = pg.Surface(self.tabSize).convert_alpha()
             self.surface.fill((128, 128, 128, 128))
-            #self.screen.blit(self.surface, (0, 0))
             sprites.blit_layer(self.surface, (0, 0), LAYER_7_UI)
             for cell in self.cells:
                 b : pg.Surface = cell.surface
@@ -44,14 +46,17 @@ class Inventory:
 
 
 
+
     def update(self):
         for cell in self.cells:
             rect = cell.surface.get_rect()
             if collision_check_topleft(pg.mouse.get_pos(), cell.pos, (self.tabSize[0] / 4, self.tabSize[0] / 4)):
-                draw_debug(cell.pos, (self.tabSize[0] / 4, self.tabSize[0] / 4))
-                print(cell.entity.entity.name)
+
+                if pg.mouse.get_pressed(3)[0]:
+                    self.selected = cell.entity.entity.id
         for key in events.keyboard_list:
             if key == pg.K_TAB:
                 self.active = not self.active
             if key == pg.K_e:
-                Instantiate("planks", Transform(camera.mouse_pos()))
+                if self.selected != None:
+                    Instantiate(self.selected, Transform(camera.mouse_pos()))

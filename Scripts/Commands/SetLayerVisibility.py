@@ -13,7 +13,7 @@ class SetLayerVisibilityCommand:
         else:
             return "layer is not number"
 
-        if num not in range(0,8):
+        if num not in range(0,9):
             return "layer not in range(0,8)"
 
         if str(args[1]).lower() == "true":
@@ -27,7 +27,6 @@ class SetLayerVisibilityCommand:
 
 
         return ""
-
 
 
 Command = SetLayerVisibilityCommand("setlayervisibility")

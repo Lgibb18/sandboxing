@@ -34,18 +34,35 @@ class Console:
                         self.text += pg.key.name(key).upper()
                     else:
                         #self.text += pg.key.name(key)
-                        self.text += events.keyboard_event.unicode
+                        if type(self.text) is str:
+                            self.text += events.keyboard_event.unicode
+                        else:
+                            self.text_color = (255, 255, 255)
+                            self.text = events.keyboard_event.unicode
                 if key == pg.K_BACKSPACE:
-                    self.text = self.text[:-1]
+                    if type(self.text) is str:
+                        self.text = self.text[:-1]
+                    else:
+                        self.text_color = (255, 255, 255)
+                        self.text = ""
                 if key == pg.K_RETURN:
-                    self.last_command = self.text
-                    self.text = self.commands.process_command(self.text)
-                    self.text_color = (128,128,128)
-                    if self.text == None or self.text == 0:
-                        self.enabled = False
+                    if type(self.text) is str:
+                        self.last_command = self.text
+                        self.text = self.commands.process_command(self.text)
+                        self.text_color = (128,128,128)
+                        if self.text == None or self.text == 0:
+                            self.enabled = False
+                            self.text_color = (255, 255, 255)
+                    else:
+                        self.enabled = not self.enabled
+                        self.text = ""
                         self.text_color = (255, 255, 255)
                 if key == pg.K_SPACE:
-                    self.text += " "
+                    if type(self.text) is str:
+                        self.text += " "
+                    else:
+                        self.text_color = (255, 255, 255)
+                        self.text = ""
                 if key == pg.K_LSHIFT:
                     self.shift = True
                 if key != pg.K_LSHIFT:

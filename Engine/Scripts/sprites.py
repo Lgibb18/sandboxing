@@ -1,6 +1,7 @@
 import Engine.Scripts.camera as camera
 import pygame as pg
 import Engine
+import asyncio
 LAYER_0_UNDER_GROUND = 0
 LAYER_1_GROUND = 1
 LAYER_2_OVER_GROUND = 2
@@ -31,7 +32,9 @@ class Sprites:
 
 
     def draw(self):
+        asyncio.run(self.draw_async())
 
+    async def draw_async(self):
         n = 0
         for i in self.all_sprites:
             if n not in disabled_layers:
@@ -71,16 +74,8 @@ to_blit : list[list[tuple[pg.Surface, tuple[int, int]]]] = [
 ]
 def blit_layer(surface : pg.Surface, pos : tuple[int, int], layer : int):
     if layer not in disabled_layers:
-        if layer in range(0,8):
+        if layer in range(0,9):
             to_blit[layer].append((surface, pos))
-
-def draw_debug(pos : tuple[int, int], size : tuple[int, int]):
-    temp = pg.image.load("Engine/Sprites/white.png")
-    temp = pg.transform.scale(temp, size).convert_alpha()
-    temp.fill((0, 255, 0, 128))
-    blit_layer(temp, pos, LAYER_7_UI)
-
-
 
 def mouse_pos():
     m = pg.mouse.get_pos()
