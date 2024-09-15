@@ -38,10 +38,11 @@ class Sprites:
         n = 0
         for i in self.all_sprites:
             if n not in disabled_layers:
-                for sprite in i.sprites():
-                    sprite.rect.x += camera.main.pos[0]
-                    sprite.rect.y += camera.main.pos[1]
-                i.draw(self.screen)  # Draw the images of all sprites.
+                if(len(i.sprites()) > 0):
+                    for sprite in i.sprites():
+                        sprite.rect.x += camera.main.pos[0]
+                        sprite.rect.y += camera.main.pos[1]
+                    i.draw(self.screen)  # Draw the images of all sprites.
                 if len(Engine.Scripts.sprites.to_blit) > 8:
                     for surf in Engine.Scripts.sprites.to_blit[n]:
                         self.screen.blit(surf[0], surf[1])

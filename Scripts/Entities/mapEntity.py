@@ -17,8 +17,8 @@ class MapEntity:
             id = "map",
             name = "Map",
             components = [
-                SpriteComponent(pg.image.load("Engine/Sprites/white.png"), LAYER_1_GROUND),
-                PhysicsComponent(pm.Body.STATIC),
+                SpriteComponent(pg.image.load("Sprites/Engine/white.png"), LAYER_1_GROUND),
+                PhysicsComponent(pm.Body.STATIC)
             ]
         )
         entities.all_entities[self.entity.id] = self

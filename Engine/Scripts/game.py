@@ -8,14 +8,16 @@ from Engine.Scripts.entities import *
 from pymunk import Vec2d
 import pymunk as pm
 import Engine.Scripts.clock as clock
+from Engine.Scripts.settings import *
+from pygame.locals import *
 space = pm.Space()
-
 
 class Game:
     def __init__(self):
         pg.init()
         self.resolution = (1280, 720)
-        self.screen = pg.display.set_mode(self.resolution, pg.RESIZABLE)
+        flags = DOUBLEBUF | pg.RESIZABLE
+        self.screen = pg.display.set_mode(self.resolution, flags)
         icon = pg.image.load("Sprites/db.png")
         pg.display.set_icon(icon)
         pg.display.set_caption('Nighty box 2', 'nb2')
@@ -34,14 +36,14 @@ class Game:
         space.gravity = Vec2d(0.0, -900.0)
         space.damping = .9
 
-        Instantiate("map", Transform((self.resolution[0] / 2,self.resolution[1]), (self.resolution[0]*50, 50)))
+        Instantiate("map", Transform((self.resolution[0] / 2,self.resolution[1]), (self.resolution[0]*50, 100)))
 
         self.dt = 0
         self.current_fps = 0
 
     def run(self):
         while not self.done:
-            self.dt = self.clock.tick(60) / 1000
+            self.dt = self.clock.tick(clock.target_fps) / 1000
             camera.main.update()
             self.run_logic()
             self.draw()
@@ -63,12 +65,11 @@ class Game:
 
 
 
-
-
-
     def run_logic(self):
         if self.current_fps > 0:
-            space.step((1/60))
+            steps = Settings.steps
+            for i in range(0,steps):
+                space.step((1*self.dt/steps))
         entities_update()
         self.sprites.run_logic()
 
@@ -77,5 +78,5 @@ class Game:
         self.sprites.draw()
         self.inventory.draw()
         self.console.draw()
-        pg.display.flip()
+        pg.display.update()
 
