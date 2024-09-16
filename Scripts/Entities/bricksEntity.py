@@ -17,7 +17,7 @@ class BricksEntity:
             id = "bricks",
             name = "Bricks",
             components = [
-                SpriteComponent(pg.image.load("Sprites/bricks.png"), LAYER_4_OBJECTS),
+                SpriteComponent(pg.image.load("Assets/Sprites/bricks.png"), LAYER_4_OBJECTS),
                 PhysicsComponent(pm.Body.DYNAMIC),
                 DraggableComponent()
             ]

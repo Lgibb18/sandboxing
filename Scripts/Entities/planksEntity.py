@@ -17,7 +17,7 @@ class PlanksEntity:
             id = "planks",
             name = "Planks",
             components = [
-                SpriteComponent(pg.image.load("Sprites/planks.png"), LAYER_4_OBJECTS),
+                SpriteComponent(pg.image.load("Assets/Sprites/planks.png"), LAYER_4_OBJECTS),
                 PhysicsComponent(pm.Body.DYNAMIC),
                 DraggableComponent()
             ]

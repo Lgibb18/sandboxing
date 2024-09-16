@@ -18,7 +18,7 @@ class Game:
         self.resolution = (1280, 720)
         flags = DOUBLEBUF | pg.RESIZABLE
         self.screen = pg.display.set_mode(self.resolution, flags)
-        icon = pg.image.load("Sprites/db.png")
+        icon = pg.image.load("Assets/Sprites/db.png")
         pg.display.set_icon(icon)
         pg.display.set_caption('Nighty box 2', 'nb2')
 
