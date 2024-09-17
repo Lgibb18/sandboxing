@@ -1,5 +1,3 @@
-import time
-
 import Engine.Scripts.events as events
 from Engine.Scripts.entities import *
 from Engine.Scripts.camera import *
@@ -54,7 +52,7 @@ class Inventory:
 
                 if pg.mouse.get_pressed(3)[0]:
                     self.selected = cell.entity.entity.id
-        for key in events.keyboard_list:
+        for (_, key) in events.keyboard_list:
             if key == pg.K_TAB:
                 self.active = not self.active
             if key == pg.K_e:

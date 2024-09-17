@@ -15,4 +15,4 @@ class Events:
             for event in Engine.Scripts.events.event_list:
                 if event.type == pg.KEYDOWN:
                     Engine.Scripts.events.keyboard_event = event
-                    keyboard_list.append(event.key)
+                    keyboard_list.append((event, event.key))
