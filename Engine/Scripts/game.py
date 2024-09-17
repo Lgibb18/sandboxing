@@ -1,5 +1,3 @@
-import time
-
 import Engine.Scripts.sprites
 from Engine.Scripts.events import *
 from Engine.Scripts.console import *
@@ -12,8 +10,11 @@ from Engine.Scripts.settings import *
 from pygame.locals import *
 space = pm.Space()
 
+from Engine.Scripts.logger import Logger
+
 class Game:
     def __init__(self):
+        Logger.info("Hello, world!")
         pg.init()
         self.resolution = (1280, 720)
         flags = DOUBLEBUF | pg.RESIZABLE
@@ -42,6 +43,7 @@ class Game:
         self.current_fps = 0
 
     def run(self):
+        Logger.info("Starting update cycle..")
         while not self.done:
             self.dt = self.clock.tick(clock.target_fps) / 1000
             camera.main.update()
@@ -50,7 +52,7 @@ class Game:
             self.handle_events()
             self.current_fps = self.clock.get_fps()
             events.keyboard_list.clear()
-
+        Logger.info("Goodbye!")
         pg.quit()
 
 

@@ -9,9 +9,6 @@ class DraggableComponent(Component):
         self.velocity = velocity
         self.offset = (0,0)
 
-    def Start(self, entity: Entity):
-        pass
-
     def Update(self, entity: Entity):
         if (collision_check(camera.mouse_pos(), entity.transform.position, entity.transform.scale) or self.is_dragging):
             for event in events.event_list:

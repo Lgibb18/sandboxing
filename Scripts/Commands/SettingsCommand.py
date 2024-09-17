@@ -8,9 +8,12 @@ class SettingsCommand:
     def process(self, args : list):
         if len(args) < 2:
             return "settings <name> <value>"
-        attr = Settings.__getattribute__(args[0])
-        if attr != None:
+        try:
+            attr = Settings.__getattribute__(args[0])
             Settings.__setattr__(args[0], convert(args[1]))
+            Settings.save()
+        except AttributeError as e:
+            return f"setting {args[0]} not found"
 
 
 Command = SettingsCommand("settings")
