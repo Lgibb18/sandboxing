@@ -8,6 +8,7 @@ import random
 
 class window(control):
     __is_dragging : bool = False
+    __is_clicking : bool = False
     __drag_offset : tuple[float, float] = (0, 0)
     def __init__(self,
             position : tuple[float, float] = (0, 0),
@@ -24,8 +25,9 @@ class window(control):
     def update(self):
         if not pg.mouse.get_pressed(3)[0]:
             self.__is_dragging = False
+            self.__is_clicking = False
         if type(self.parent) is not list: return
-        if self.is_clicked() and not self.__is_dragging:
+        if self.is_clicked() and not self.__is_dragging and not self.__is_clicking:
                 rtrn = False
                 for control in self.parent[self.parent.index(self):]:
                      if control is self: continue
@@ -44,7 +46,7 @@ class window(control):
                 self.__is_dragging = True
                 if type(self.parent) is list:
                      self.parent.append(self.parent.pop(self.parent.index(self)))
-
+        if pg.mouse.get_pressed(3)[0]: self.__is_clicking = True
         if self.__is_dragging: 
             pos = gui_tools.screen_to_ui(pg.mouse.get_pos())
             self.position = (

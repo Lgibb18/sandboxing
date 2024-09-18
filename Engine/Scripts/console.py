@@ -1,6 +1,6 @@
 import Engine.Scripts.events as events
 from Engine.Scripts.commands import *
-from Engine.Utilities.logger import Logger
+from Engine.Utilities.logger import *
 import pygame as pg
 from Engine.Utilities.loop import *
 

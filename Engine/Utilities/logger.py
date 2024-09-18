@@ -1,13 +1,13 @@
-info = '\033[97m'
-debug = '\033[96m'
-warn = '\033[93m'
-error = '\033[91m'
-fatal = '\033[95m'
-reset = '\033[0m'
+__info = '\033[97m'
+__debug = '\033[96m'
+__warn = '\033[93m'
+__error = '\033[91m'
+__fatal = '\033[95m'
+__reset = '\033[0m'
 
+_print = print
 
-class _logger:
-    def __get_invoker(self) -> str:
+def __get_invoker() -> str:
         from inspect import stack
         try:
             _stack = stack()
@@ -16,28 +16,40 @@ class _logger:
         except:
             return ""
 
+def info(text):
+    to_print = f"{__info}[INFO]{__reset}{__get_invoker()}: {text}"
+    _print(to_print)
+def debug(text):
+    to_print = f"{__debug}[DEBG]{__reset}{__get_invoker()}: {text}"
+    _print(to_print)
+def warn(text):
+    to_print = f"{__warn}[WARN]{__reset}{__get_invoker()}: {text}"
+    _print(to_print)
+def error(text):
+    to_print = f"{__error}[ERRO]{__reset}{__get_invoker()}: {text}"
+    _print(to_print)
+def fatal(text, exit : bool = True):
+    to_print = f"{__fatal}[FATL]{__reset}{__get_invoker()}: {text}"
+    _print(to_print)
+    if(exit):
+        import pygame
+        pygame.quit()
 
-    def info(self, text):
-        to_print = f"{info}[INFO]{reset}{self.__get_invoker()}: {text}"
-        print(to_print)
-    
-    def debug(self, text):
-        to_print = f"{debug}[DEBG]{reset}{self.__get_invoker()}: {text}"
-        print(to_print)
+INFO = 0
+DEBUG = 1
+WARN = 2
+ERROR = 3
+FATAL = 4
 
-    def warn(self, text):
-        to_print = f"{warn}[WARN]{reset}{self.__get_invoker()}: {text}"
-        print(to_print)
-
-    def error(self, text):
-        to_print = f"{error}[ERRO]{reset}{self.__get_invoker()}: {text}"
-        print(to_print)
-
-    def fatal(self, text, exit : bool = True):
-        to_print = f"{fatal}[FATL]{reset}{self.__get_invoker()}: {text}"
-        print(to_print)
-        if(exit):
-            import pygame
-            pygame.quit()
-
-Logger = _logger()
+def print(text, type: int = INFO):
+    match type:
+        case 0:
+            info(text)
+        case 1:
+            debug(text)
+        case 2:
+            warn(text)
+        case 3:
+            error(text)
+        case 4:
+            fatal(text)

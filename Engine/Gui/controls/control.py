@@ -123,7 +123,7 @@ class control:
         if type(child) is control:
             child.set_parent(self)
         else:
-            Logger.fatal(f"{child} is not a control")
+            fatal(f"{child} is not a control")
 
     def set_parent(self, parent):
         self.parent = parent
@@ -133,5 +133,5 @@ class control:
         elif type(parent) is control:
             parent.children.append(self)
         else:
-            Logger.fatal(f"{parent} - {type(parent).__name__} is not a list or control")
+            fatal(f"{parent} - {type(parent).__name__} is not a list or control")
 

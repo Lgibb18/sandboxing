@@ -9,14 +9,14 @@ import pymunk as pm
 import Engine.Utilities.clock as clock
 from Engine.Utilities.settings import *
 from pygame.locals import *
-from Engine.Utilities.logger import Logger
+from Engine.Utilities.logger import *
 from Engine.Utilities.loop import *
 import Engine.Scripts.gui
 
 space = pm.Space()
 class Game:
     def __init__(self):
-        Logger.info("Hello, world!")        
+        info("Hello, world!")        
         pg.init()
         self.resolution = (1280, 720)
         flags = DOUBLEBUF | pg.RESIZABLE
@@ -44,7 +44,7 @@ class Game:
         self.current_fps = 0
 
     def run(self):
-        Logger.info("Starting update cycle..")
+        info("Starting update cycle..")
         while not self.done:
             self.dt = self.clock.tick(clock.target_fps) / 1000
             camera.main.update()
@@ -53,7 +53,7 @@ class Game:
             self.handle_events()
             self.current_fps = self.clock.get_fps()
             events.keyboard_list.clear()
-        Logger.info("Goodbye!")
+        info("Goodbye!")
         pg.quit()
 
 

@@ -4,6 +4,8 @@ import Engine
 event_list : list[pg.event.Event] = []
 keyboard_event = None
 keyboard_list = []
+is_downed : bool = False
+
 
 class Events:
     def __init__(self):
@@ -11,6 +13,10 @@ class Events:
         self.handle_events()
 
     def handle_events(self):
+            if not Engine.Scripts.events.is_downed and pg.mouse.get_pressed():
+                 Engine.Scripts.events.is_downed = True
+            else:
+                 Engine.Scripts.events.is_downed = False
             Engine.Scripts.events.event_list = pg.event.get()
             for event in Engine.Scripts.events.event_list:
                 if event.type == pg.KEYDOWN:
