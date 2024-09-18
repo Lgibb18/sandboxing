@@ -2,17 +2,21 @@ from Engine.Utilities.logger import *
 import pygame as pg
 from Engine.Utilities.loop import *
 from Engine.Scripts.events import *
+import functools
+from typing_extensions import Unpack, TypedDict
+
+class control_kwargs(TypedDict):
+    children : list
+    position : tuple[float, float]
+    size : tuple[float, float]
+    parent : object
+    surface : pg.Surface
+    stretch : bool
+    color : pg.Color
+    path : str
+
 class control:
-    def __init__(self,
-            position : tuple[float, float] = (0, 0),
-            size : tuple[float, float] = (50, 50),
-            stretch : bool = False, 
-            color : pg.Color = pg.Color(255,255,255,255),
-            path : str = "",
-            parent = None,
-            visible : bool = True):
-        
-        self.name = self.__class__.__name__
+    def __init__(self, **kwargs : Unpack[control_kwargs]):
         self.children : list
         self.position : tuple[float, float]
         self.size : tuple[float, float]
@@ -21,18 +25,21 @@ class control:
         self.stretch : bool
         self.color : pg.Color
         self.path : str
-        self.position = position
-        self.size = size
-        self.stretch = stretch
-        self.path = path
-        self.children = []
-        self.surface = pg.Surface(size)
-        self.visible = visible
-
-        if parent != None: self.set_parent(parent)
+        for key, value in kwargs:
+            self.__setattr__(key, value)
+        
+        
+        #self.position = position
+        #self.size = size
+        #self.stretch = stretch
+        #self.path = path
+        #self.children = []
+        #self.surface = pg.Surface(size)
+        #self.visible = visible
 
         self.set_size(self.size)
-        self.set_color(color)
+        self.set_parent(self.parent)
+        self.set_color(self.color)
 
         sign_draw(self.draw)
 
@@ -143,4 +150,3 @@ class control:
             parent.children.append(self)
         else:
             fatal(f"{parent} - {type(parent).__name__} is not a list or control")
-

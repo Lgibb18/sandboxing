@@ -1,4 +1,6 @@
-from Engine.Gui.controls.control import control
+from Engine.Gui.controls.control import *
+from typing_extensions import Unpack
+
 import pygame as pg
 from Engine.Utilities.loop import *
 from Engine.Utilities.utils import *
@@ -10,14 +12,8 @@ class window(control):
     __is_dragging : bool = False
     __is_clicking : bool = False
     __drag_offset : tuple[float, float] = (0, 0)
-    def __init__(self,
-            position : tuple[float, float] = (0, 0),
-            size : tuple[float, float] = (50, 50),
-            stretch : bool = False, 
-            color : pg.Color = pg.Color(255,255,255,255),
-            path : str = "",
-            parent = None):
-        super().__init__(position, size, stretch, color, path, parent)
+    def __init__(self, **kwargs: Unpack[control_kwargs]):
+        super().__init__(kwargs)
         sign_update(self.update)
 
     def is_dragging(self): return self.__is_dragging
