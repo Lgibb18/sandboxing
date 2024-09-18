@@ -1,6 +1,6 @@
 from Scripts.Components.PhysicsComponent import *
 import pygame as pg
-import Engine.Scripts.sprites as sprites
+import Engine.Utilities.sprites as sprites
 
 
 class SpriteComponent(pg.sprite.Sprite, Component):

@@ -1,7 +1,10 @@
 import Engine.Scripts.camera as camera
 import pygame as pg
-import Engine
 import asyncio
+import Engine
+import Engine.Utilities
+from Engine.Utilities.loop import *
+
 LAYER_0_UNDER_GROUND = 0
 LAYER_1_GROUND = 1
 LAYER_2_OVER_GROUND = 2
@@ -14,6 +17,8 @@ LAYER_8_OVER_UI = 8
 
 class Sprites:
     def __init__(self, screen):
+        sign_logic(self.run_logic)
+        sign_draw(self.draw)
         self.all_sprites = [pg.sprite.Group(),
                             pg.sprite.Group(),
                             pg.sprite.Group(),
@@ -43,11 +48,11 @@ class Sprites:
                         sprite.rect.x += camera.main.pos[0]
                         sprite.rect.y += camera.main.pos[1]
                     i.draw(self.screen)  # Draw the images of all sprites.
-                if len(Engine.Scripts.sprites.to_blit) > 8:
-                    for surf in Engine.Scripts.sprites.to_blit[n]:
+                if len(Engine.Utilities.sprites.to_blit) > 8:
+                    for surf in Engine.Utilities.sprites.to_blit[n]:
                         self.screen.blit(surf[0], surf[1])
             n += 1
-        Engine.Scripts.sprites.to_blit = [
+        Engine.Utilities.sprites.to_blit = [
             [], # 1
             [], # 2
             [], # 3

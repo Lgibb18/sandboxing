@@ -14,7 +14,6 @@ def collision_check(pos1, pos2, scale):
     else:
         return False
 
-
 def collision_check_topleft(pos1, pos2, scale):
     if((pos1[0] > pos2[0])
             and (pos1[0] < pos2[0] + (scale[0]))

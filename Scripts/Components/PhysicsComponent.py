@@ -1,5 +1,5 @@
 from Engine.Scripts.component import *
-from Engine.Scripts.utils import *
+from Engine.Utilities.utils import *
 import Engine.Scripts.game as game
 import pymunk as pm
 import math

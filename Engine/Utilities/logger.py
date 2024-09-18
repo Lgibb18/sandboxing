@@ -33,8 +33,11 @@ class _logger:
         to_print = f"{error}[ERRO]{reset}{self.__get_invoker()}: {text}"
         print(to_print)
 
-    def fatal(self, text):
+    def fatal(self, text, exit : bool = True):
         to_print = f"{fatal}[FATL]{reset}{self.__get_invoker()}: {text}"
         print(to_print)
+        if(exit):
+            import pygame
+            pygame.quit()
 
 Logger = _logger()

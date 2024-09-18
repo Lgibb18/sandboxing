@@ -1,13 +1,13 @@
 import pygame as pg
 import Engine
 
-event_list = []
+event_list : list[pg.event.Event] = []
 keyboard_event = None
 keyboard_list = []
 
-
 class Events:
     def __init__(self):
+        pg.key.set_repeat(500,100)
         self.handle_events()
 
     def handle_events(self):
@@ -16,3 +16,4 @@ class Events:
                 if event.type == pg.KEYDOWN:
                     Engine.Scripts.events.keyboard_event = event
                     keyboard_list.append((event, event.key))
+

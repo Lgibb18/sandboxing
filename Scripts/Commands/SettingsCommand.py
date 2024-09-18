@@ -1,6 +1,6 @@
 import Engine.Scripts.commands as commands
-from Engine.Scripts.settings import *
-from Engine.Scripts.utils import convert
+from Engine.Utilities.settings import *
+from Engine.Utilities.utils import convert
 class SettingsCommand:
     def __init__(self, name):
         commands.all_commands[name] = self

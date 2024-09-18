@@ -1,11 +1,13 @@
 import Engine.Scripts.events as events
 from Engine.Scripts.commands import *
-from Engine.Scripts.logger import Logger
+from Engine.Utilities.logger import Logger
 import pygame as pg
-
+from Engine.Utilities.loop import *
 
 class Console:
     def __init__(self, screen : pg.Surface):
+        sign_draw(self.draw)
+        sign_update(self.update)
         self.text = ""
         self.screen = screen
         self.enabled = False
@@ -29,12 +31,14 @@ class Console:
         for (event, key) in events.keyboard_list:
             if key == pg.K_BACKQUOTE or key == 1105 : #1105 = ё
                 self.enabled = not self.enabled
-                Logger.debug(self.enabled)
                 self.text = ""
                 self.text_color = (255, 255, 255)
                 return
             if self.enabled:
-                if key == pg.K_RETURN:
+                if key == pg.K_UP:
+                    if type(self.last_command) is str:
+                        self.text = self.last_command
+                elif key == pg.K_RETURN:
                     self.last_command = self.text
                     self.text = self.commands.process_command(self.text)
                     self.text_color = (128,128,128)

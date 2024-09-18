@@ -1,5 +1,5 @@
 import pymunk as pm
-from Engine.Scripts.sprites import *
+from Engine.Utilities.sprites import *
 import Engine.Scripts.entities as entities
 
 # Components

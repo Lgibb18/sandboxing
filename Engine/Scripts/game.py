@@ -1,20 +1,22 @@
-import Engine.Scripts.sprites
+import Engine.Utilities
+import Engine.Utilities.sprites
 from Engine.Scripts.events import *
 from Engine.Scripts.console import *
 from Engine.Scripts.inventory import *
 from Engine.Scripts.entities import *
 from pymunk import Vec2d
 import pymunk as pm
-import Engine.Scripts.clock as clock
-from Engine.Scripts.settings import *
+import Engine.Utilities.clock as clock
+from Engine.Utilities.settings import *
 from pygame.locals import *
+from Engine.Utilities.logger import Logger
+from Engine.Utilities.loop import *
+import Engine.Scripts.gui
+
 space = pm.Space()
-
-from Engine.Scripts.logger import Logger
-
 class Game:
     def __init__(self):
-        Logger.info("Hello, world!")
+        Logger.info("Hello, world!")        
         pg.init()
         self.resolution = (1280, 720)
         flags = DOUBLEBUF | pg.RESIZABLE
@@ -23,9 +25,8 @@ class Game:
         pg.display.set_icon(icon)
         pg.display.set_caption('Nighty box 2', 'nb2')
 
-
         self.sprites = Sprites(self.screen)
-        Engine.Scripts.sprites.every_sprites = self.sprites
+        Engine.Utilities.sprites.every_sprites = self.sprites
         self.console = Console(self.screen)
         self.inventory = Inventory(self.screen)
 
@@ -58,8 +59,7 @@ class Game:
 
     def handle_events(self):
         Events()
-        self.console.update()
-        self.inventory.update()
+        [m() for m in update_methods]
         for event in events.event_list:
             if event.type == pg.QUIT:
                 self.done = True
@@ -70,15 +70,13 @@ class Game:
     def run_logic(self):
         if self.current_fps > 0:
             steps = Settings.steps
-            for i in range(0,steps):
+            for _ in range(0,steps):
                 space.step((1*self.dt/steps))
-        entities_update()
-        self.sprites.run_logic()
+
+        [m() for m in logic_methods]
 
     def draw(self):
         self.screen.fill(pg.Color(134, 183, 181))
-        self.sprites.draw()
-        self.inventory.draw()
-        self.console.draw()
+        [m() for m in draw_methods]
         pg.display.update()
 

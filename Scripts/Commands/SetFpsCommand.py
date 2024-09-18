@@ -1,5 +1,5 @@
 import Engine.Scripts.commands as commands
-import Engine.Scripts.clock as clock
+import Engine.Utilities.clock as clock
 class SetFpsCommand:
     def __init__(self, name):
         commands.all_commands[name] = self

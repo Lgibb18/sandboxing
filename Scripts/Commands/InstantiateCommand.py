@@ -1,7 +1,7 @@
 import Engine.Scripts.commands as commands
 from Engine.Scripts.entities import *
 import Engine.Scripts.camera as camera
-from Engine.Scripts.utils import convert
+from Engine.Utilities.utils import convert
 class InstantiateCommand:
     def __init__(self, name):
         commands.all_commands[name] = self

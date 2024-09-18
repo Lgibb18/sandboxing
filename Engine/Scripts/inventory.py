@@ -1,9 +1,12 @@
 import Engine.Scripts.events as events
 from Engine.Scripts.entities import *
 from Engine.Scripts.camera import *
-import Engine.Scripts.sprites as sprites
-from Engine.Scripts.sprites import *
-from Engine.Scripts.utils import *
+import Engine.Utilities.sprites as sprites
+from Engine.Utilities.sprites import *
+from Engine.Utilities.utils import *
+
+from Engine.Utilities.loop import *
+
 class Cell:
     pos : tuple[int, int] = (0,0)
     def __init__(self, entity, surface, number):
@@ -14,6 +17,9 @@ class Cell:
 
 class Inventory:
     def __init__(self, screen):
+        sign_draw(self.draw)
+        sign_update(self.update)
+
         self.screen = screen
         self.active = True
         self.cells = []

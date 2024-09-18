@@ -1,4 +1,4 @@
-from Engine.Scripts.sprites import *
+from Engine.Utilities.sprites import *
 import Engine.Scripts.entities as entities
 import pymunk as pm
 
