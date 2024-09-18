@@ -9,15 +9,16 @@ class Gui:
 
     def draw(self):
         for control in self.tree:
-            self.render_control(control)
+                self.render_control(control)
 
     def __render_control(self, control : control):
         position = control.get_screen_pos()
         blit_layer(control.surface, position, LAYER_7_UI)
 
     def render_control(self, control : control):
-        self.__render_control(control)
-        for i in control.children:
-            self.render_control(i)
+        if control.visible:
+            self.__render_control(control)
+            for i in control.children:
+                self.render_control(i)
 
 gui = Gui()

@@ -2,7 +2,6 @@ from Engine.Utilities.logger import *
 import pygame as pg
 from Engine.Utilities.loop import *
 from Engine.Scripts.events import *
-
 class control:
     def __init__(self,
             position : tuple[float, float] = (0, 0),
@@ -10,7 +9,8 @@ class control:
             stretch : bool = False, 
             color : pg.Color = pg.Color(255,255,255,255),
             path : str = "",
-            parent = None):
+            parent = None,
+            visible : bool = True):
         
         self.name = self.__class__.__name__
         self.children : list
@@ -27,6 +27,7 @@ class control:
         self.path = path
         self.children = []
         self.surface = pg.Surface(size)
+        self.visible = visible
 
         if parent != None: self.set_parent(parent)
 
@@ -50,6 +51,14 @@ class control:
     
     def draw(self):
         self.set_size(self.size)
+    
+    def get_final_parent(self, control = None):
+        if control == None: control = self
+        if type(control.parent) is control:
+            return self.get_final_parent(control.parent)
+        else:
+            return control
+
     
     def set_size(self, size : tuple[float, float]):
         if self.surface.get_rect().size == size: return
