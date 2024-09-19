@@ -57,17 +57,35 @@ class control:
             del i
         del self
 
+    def __is_top(self) -> bool:
+        rtrn = True
+        p = self.get_final_parent()
+        for control in p.parent[p.parent.index(p):]:
+            if control is p: continue
+            if control.get_rect().collidepoint(pg.mouse.get_pos()):
+                rtrn = False
+                break
+        return rtrn
+
     def on_clicked(self) -> bool:
         for event in events.event_list:
-            if event.type == pg.MOUSEBUTTONDOWN:
+            if event.type == pg.MOUSEBUTTONUP:
                 if event.button == 1 and self.get_rect().collidepoint(pg.mouse.get_pos()):
+                    if not self.__is_top(): return False
                     return True
         return False
     
     def is_clicked(self) -> bool:
         if pg.mouse.get_pressed(3)[0]:
             if self.get_rect().collidepoint(pg.mouse.get_pos()):
+                if not self.__is_top(): return False
                 return True
+        return False
+    
+    def is_hovered(self) -> bool:
+        if self.get_rect().collidepoint(pg.mouse.get_pos()):
+            if not self.__is_top(): return False
+            return True
         return False
     
     def draw(self):
@@ -76,12 +94,12 @@ class control:
              return
         self.set_size(self.size)
     
-    def get_final_parent(self, control = None):
-        if control == None: control = self
-        if isinstance(control.parent, control):
-            return self.get_final_parent(control.parent)
+    def get_final_parent(self, ctrl = None):
+        if ctrl == None: ctrl = self
+        if isinstance(ctrl.parent, control):
+            return self.get_final_parent(ctrl.parent)
         else:
-            return control
+            return ctrl
 
     
     def set_size(self, size : tuple[float, float]):

@@ -7,6 +7,7 @@ class button(control):
         on_click_args: object
         clicked_color: pg.Color
         normal_color: pg.Color
+        hovered_color: pg.Color
 
     def __init__(self, **kwargs: Unpack[button_kwargs]):
         super().__init__(**kwargs)
@@ -15,6 +16,7 @@ class button(control):
         self.on_click_args = None
         self.clicked_color = pg.Color(200,200,200,255)
         self.normal_color = self.color
+        self.hovered_color = pg.Color(240,240,240,255)
         for key, value in kwargs.items():
             self.__setattr__(key, value)
 
@@ -28,6 +30,9 @@ class button(control):
         if(self.is_clicked()):
             self.set_color(self.clicked_color)
         else:
-            self.set_color(self.normal_color)
+            if(self.is_hovered()):
+                self.set_color(self.hovered_color)
+            else:
+                self.set_color(self.normal_color)
 
     
