@@ -23,7 +23,7 @@ class InstantiateCommand:
             y = int(args[2])
         else:
             if args[2] == "m":
-                y = camera.mouse_pos()[0]
+                y = camera.mouse_pos()[1]
             else: return "y is not position"
 
         # entity

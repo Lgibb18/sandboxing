@@ -22,7 +22,9 @@ class SpriteComponent(pg.sprite.Sprite, Component):
 
     def Update(self, entity: Entity):
         self.rect.center = entity.transform.position
-        self.image = pg.transform.rotate(self.orig_image, entity.transform.rotation)
+        if entity.transform.get_prev_rotation() != entity.transform.rotation:
+            self.image = pg.transform.rotate(self.orig_image, entity.transform.rotation)
+            entity.transform.set_rotation(entity.transform.rotation)
         self.rect = self.image.get_rect(center=self.rect.center)
         if entity.transform.position[1] > 2000:
             self.kill()

@@ -3,6 +3,7 @@ import pygame as pg
 
 
 class Transform:
+    __prev_rotation : float = 0
     position : tuple[int, int] = (0,0)
     scale : tuple[float, float] = (50,50)
     rotation : float = 0
@@ -12,6 +13,13 @@ class Transform:
         self.position = position
         self.scale = scale
         self.rotation = rotation
+
+    def set_rotation(self, angle : float):
+        self.__prev_rotation = self.rotation
+        self.rotation = angle
+
+    def get_prev_rotation(self) -> float:
+        return self.__prev_rotation
 
 
 class Entity:
