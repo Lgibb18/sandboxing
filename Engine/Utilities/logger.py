@@ -25,7 +25,7 @@ def __get_invoker() -> str:
 def info(text):
     to_print = f"{__info}[INFO]{__reset}{__get_invoker()}: {text}"
     _print(to_print)
-def debug(text, show_time = True):
+def debug(text, show_time = False):
     if show_time:
         cur_time = datetime.now()
         to_print = f"{__debug}[DEBG]{__reset}{__get_invoker()} [{cur_time.hour}:{cur_time.minute}:{cur_time.second}.{round(cur_time.microsecond / 10000)}]: {text}"

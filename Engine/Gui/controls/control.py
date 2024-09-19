@@ -116,8 +116,8 @@ class control:
         screen_size = self.get_screen_size()
         if isinstance(self.parent, control):
             calculated_position = (
-                self.parent.position[0] + self.position[0] * (self.parent.size[0] / resolution[0]),
-                self.parent.position[1] + self.position[1] * (self.parent.size[1] / resolution[1]),
+                self.parent.position[0] + self.position[0] * (self.parent.size[0]),
+                self.parent.position[1] + self.position[1] * (self.parent.size[1]),
             )
             position = (
                 resolution[0] / 2 + resolution[0] / 2 *  calculated_position[0] - screen_size[0] / 2,
