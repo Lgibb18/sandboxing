@@ -2,49 +2,63 @@ from Engine.Utilities.logger import *
 import pygame as pg
 from Engine.Utilities.loop import *
 from Engine.Scripts.events import *
-import functools
+import Engine.Scripts.events as events
 from typing_extensions import Unpack, TypedDict
-
 class control_kwargs(TypedDict):
-    children : list
-    position : tuple[float, float]
-    size : tuple[float, float]
-    parent : object
-    surface : pg.Surface
-    stretch : bool
-    color : pg.Color
-    path : str
+    children: list
+    position: tuple[float, float]
+    size: tuple[float, float]
+    parent: object
+    surface: pg.Surface
+    stretch: bool
+    color: pg.Color
+    path: str
+    visible: bool
 
 class control:
     def __init__(self, **kwargs : Unpack[control_kwargs]):
-        self.children : list
-        self.position : tuple[float, float]
-        self.size : tuple[float, float]
-        self.parent : control | list
-        self.surface : pg.Surface
-        self.stretch : bool
-        self.color : pg.Color
-        self.path : str
-        for key, value in kwargs:
+        self.parent = []
+        self.children = []
+        self.position = (0, 0)
+        self.size = (100, 100)
+        self.surface = pg.Surface(self.size)
+        self.stretch = False
+        self.color = pg.Color(255,255,255,255)
+        self.path = ""
+        self.visible = True
+        for key, value in kwargs.items():
             self.__setattr__(key, value)
-        
-        
-        #self.position = position
-        #self.size = size
-        #self.stretch = stretch
-        #self.path = path
-        #self.children = []
-        #self.surface = pg.Surface(size)
-        #self.visible = visible
-
+        self.set_color(self.color)
         self.set_size(self.size)
         self.set_parent(self.parent)
-        self.set_color(self.color)
 
         sign_draw(self.draw)
 
+    def unsign_all(self):
+        for f in update_methods:
+            try:
+                if f.__self__ is self: unsign_update(f)
+            except: continue
+        for f in draw_methods:
+            try: 
+                if f.__self__ is self: unsign_draw(f)
+            except: continue
+        for f in logic_methods:
+            try:
+                if f.__self__ is self: unsign_logic(f)
+            except: continue
+
+
+    def destroy(self):
+        self.unsign_all()
+        self.set_parent([])
+        for i in self.children:
+            i.unsign_all()
+            del i
+        del self
+
     def on_clicked(self) -> bool:
-        for event in event_list:
+        for event in events.event_list:
             if event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1 and self.get_rect().collidepoint(pg.mouse.get_pos()):
                     return True
@@ -57,11 +71,14 @@ class control:
         return False
     
     def draw(self):
+        if self.parent == None:
+             unsign_draw(self.draw)
+             return
         self.set_size(self.size)
     
     def get_final_parent(self, control = None):
         if control == None: control = self
-        if type(control.parent) is control:
+        if isinstance(control.parent, control):
             return self.get_final_parent(control.parent)
         else:
             return control
@@ -93,7 +110,7 @@ class control:
         position = self.position
         resolution = pg.display.get_window_size()
         screen_size = self.get_screen_size()
-        if type(self.parent) is control:
+        if isinstance(self.parent, control):
             calculated_position = (
                 self.parent.position[0] + self.position[0] * (self.parent.size[0] / resolution[0]),
                 self.parent.position[1] + self.position[1] * (self.parent.size[1] / resolution[1]),
@@ -114,7 +131,7 @@ class control:
         if not self.stretch: return self.size
         size = self.size
         resolution = pg.display.get_window_size()
-        if type(self.parent) is control:
+        if isinstance(self.parent, control):
             size = (
                 resolution[0] * self.size[0] * self.parent.size[0],
                 resolution[1] * self.size[1] * self.parent.size[1]
@@ -136,17 +153,23 @@ class control:
         )
     
     def add_child(self, child):
-        if type(child) is control:
+        if isinstance(child, control):
             child.set_parent(self)
         else:
             fatal(f"{child} is not a control")
 
     def set_parent(self, parent):
+        if isinstance(self.parent, list):
+            if len(self.parent) > 0:
+                self.parent.remove(self)
+        elif isinstance(self.parent, control):
+            if len(self.parent.children) > 0:
+                self.parent.children.remove(self)
         self.parent = parent
 
-        if type(parent) is list:
+        if isinstance(parent, list):
             parent.append(self)
-        elif type(parent) is control:
+        elif isinstance(parent, control):
             parent.children.append(self)
         else:
             fatal(f"{parent} - {type(parent).__name__} is not a list or control")

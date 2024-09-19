@@ -1,19 +1,11 @@
-from Engine.Gui.controls.control import *
-from typing_extensions import Unpack
-
-import pygame as pg
-from Engine.Utilities.loop import *
-from Engine.Utilities.utils import *
-from Engine.Utilities.logger import *
-from Engine.Utilities.gui_tools import *
-import random
+from Engine.Gui.imports import *
 
 class window(control):
     __is_dragging : bool = False
     __is_clicking : bool = False
     __drag_offset : tuple[float, float] = (0, 0)
     def __init__(self, **kwargs: Unpack[control_kwargs]):
-        super().__init__(kwargs)
+        super().__init__(**kwargs)
         sign_update(self.update)
 
     def is_dragging(self): return self.__is_dragging
@@ -27,7 +19,7 @@ class window(control):
                 rtrn = False
                 for control in self.parent[self.parent.index(self):]:
                      if control is self: continue
-                     if type(control) is window: 
+                     if isinstance(control, window): 
                           if control.is_dragging() or control.get_rect().collidepoint(pg.mouse.get_pos()):
                                rtrn = True
                                break

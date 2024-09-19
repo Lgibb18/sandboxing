@@ -2,6 +2,7 @@ import Engine.Scripts.commands as commands
 import Engine.Utilities.clock as clock
 from Engine.Scripts.gui import *
 from Engine.Gui.controls.window import *
+from Engine.Gui.controls.button import *
 from Engine.Utilities.logger import *
 from Engine.Utilities.loop import *
 import random
@@ -16,6 +17,12 @@ class TestUICommand:
             stretch=True,
             parent=gui.tree
         )
+        self.button = button(
+            on_click=None,
+            on_click_args=None,
+            parent=self.window
+        )
+        self.button.on_click = self.button.destroy
         self.window.set_color(pg.Color(random.randint(0,255), random.randint(0,255), random.randint(0,255), 255))
 
 
