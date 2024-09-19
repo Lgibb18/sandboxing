@@ -85,10 +85,14 @@ class control:
 
     
     def set_size(self, size : tuple[float, float]):
-        if self.surface.get_rect().size == size: return
+        screen_size = self.get_screen_size()
+        if self.stretch:
+            if self.surface.get_rect().size == screen_size: return
+        else:
+            if self.surface.get_rect().size == size: return
         self.size = size
         if self.stretch:
-            self.surface = pg.transform.scale(self.surface, self.get_screen_size())
+            self.surface = pg.transform.scale(self.surface, screen_size)
         else:
             self.surface = pg.transform.scale(self.surface, self.size)
 
@@ -160,10 +164,10 @@ class control:
 
     def set_parent(self, parent):
         if isinstance(self.parent, list):
-            if len(self.parent) > 0:
+            if self.parent.__contains__(self):
                 self.parent.remove(self)
         elif isinstance(self.parent, control):
-            if len(self.parent.children) > 0:
+            if self.parent.children.__contains__(self):
                 self.parent.children.remove(self)
         self.parent = parent
 

@@ -1,8 +1,14 @@
+from datetime import datetime
+
+import Engine.Utilities
+import Engine.Utilities
+import Engine.Utilities.logger
 __info = '\033[97m'
 __debug = '\033[96m'
 __warn = '\033[93m'
 __error = '\033[91m'
 __fatal = '\033[95m'
+__time = '\033[92m'
 __reset = '\033[0m'
 
 _print = print
@@ -19,8 +25,12 @@ def __get_invoker() -> str:
 def info(text):
     to_print = f"{__info}[INFO]{__reset}{__get_invoker()}: {text}"
     _print(to_print)
-def debug(text):
-    to_print = f"{__debug}[DEBG]{__reset}{__get_invoker()}: {text}"
+def debug(text, show_time = True):
+    if show_time:
+        cur_time = datetime.now()
+        to_print = f"{__debug}[DEBG]{__reset}{__get_invoker()} [{cur_time.hour}:{cur_time.minute}:{cur_time.second}.{round(cur_time.microsecond / 10000)}]: {text}"
+    else:
+        to_print = f"{__debug}[DEBG]{__reset}{__get_invoker()}: {text}"
     _print(to_print)
 def warn(text):
     to_print = f"{__warn}[WARN]{__reset}{__get_invoker()}: {text}"
@@ -34,6 +44,17 @@ def fatal(text, exit : bool = True):
     if(exit):
         import pygame
         pygame.quit()
+
+last_time_test = datetime.now()
+def __set_time():
+    Engine.Utilities.logger.last_time_test = datetime.now()
+def time_test(text, s = 1):
+    t = datetime.now()
+    if (t - last_time_test).total_seconds() >= s:
+        to_print = f"{__time}[TIME]{__reset}{__get_invoker()} [{(t - last_time_test).total_seconds()}]: {text}"
+        _print(to_print)
+    __set_time()
+        
 
 INFO = 0
 DEBUG = 1
