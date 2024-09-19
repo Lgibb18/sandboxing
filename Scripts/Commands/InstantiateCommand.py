@@ -33,7 +33,7 @@ class InstantiateCommand:
         # count        
         if(len(args) >= 4 and convert.type(args[3]) is int):
             for i in range(int(args[3])):
-                Instantiate(args[0], Transform((x, y + i)))
+                Instantiate(args[0], Transform((x, y - i)))
             return        
 
         Instantiate(args[0], Transform((x, y)))

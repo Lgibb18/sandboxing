@@ -12,7 +12,6 @@ from pygame.locals import *
 from Engine.Utilities.logger import *
 from Engine.Utilities.loop import *
 import Engine.Scripts.gui
-
 space = pm.Space()
 class Game:
     def __init__(self):
@@ -22,7 +21,7 @@ class Game:
         flags = DOUBLEBUF | pg.RESIZABLE
         self.screen = pg.display.set_mode(self.resolution, flags)
         icon = pg.image.load("Assets/Sprites/db.png")
-        pg.display.set_icon(icon)
+        pg.display.set_icon(icon) 
         pg.display.set_caption('Nighty box 2', 'nb2')
 
         self.sprites = Sprites(self.screen)
@@ -36,7 +35,9 @@ class Game:
         clock.main_clock = self.clock
 
         space.gravity = Vec2d(0.0, -900.0)
+        #space.iterations = 250
         space.damping = .9
+        
 
         Instantiate("map", Transform((self.resolution[0] / 2,self.resolution[1]), (self.resolution[0]*50, 100)))
 
@@ -66,9 +67,10 @@ class Game:
 
 
 
-
+    
     def run_logic(self):
         if self.current_fps > 0:
+            space.iterations = Settings.iterations
             steps = Settings.steps
             for _ in range(0,steps):
                 space.step((1*self.dt/steps))

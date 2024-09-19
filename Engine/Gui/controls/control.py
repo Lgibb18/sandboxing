@@ -114,6 +114,28 @@ class control:
         else:
             self.surface = pg.transform.scale(self.surface, self.size)
 
+    def set_size_dont_update(self, size : tuple[float, float]):
+        screen_size = self.get_screen_size(size)
+        if self.stretch:
+            if self.surface.get_rect().size == screen_size: return
+        else:
+            if self.surface.get_rect().size == size: return
+        if self.stretch:
+            self.surface = pg.transform.scale(self.surface, screen_size)
+        else:
+            self.surface = pg.transform.scale(self.surface, size)
+
+    def set_size_dont_update_resolution(self, size : tuple[float, float], resolution : float):
+        screen_size = self.get_screen_size_resolution(size, resolution)
+        if self.stretch:
+            if self.surface.get_rect().size == screen_size: return
+        else:
+            if self.surface.get_rect().size == size: return
+        if self.stretch:
+            self.surface = pg.transform.scale(self.surface, screen_size)
+        else:
+            self.surface = pg.transform.scale(self.surface, size)
+
     def set_color(self, color : pg.Color):
         self.color = color
         if self.path == "": self.surface.fill(self.color)
@@ -149,21 +171,32 @@ class control:
         return position
     
 
-    def get_screen_size(self):
-        if not self.stretch: return self.size
-        size = self.size
+    def get_screen_size(self, size = None):
+        if size == None: size = self.size
+        if not self.stretch: return size
+        _size = self.size
         resolution = pg.display.get_window_size()
         if isinstance(self.parent, control):
-            size = (
-                resolution[0] * self.size[0] * self.parent.size[0],
-                resolution[1] * self.size[1] * self.parent.size[1]
+            _size = (
+                resolution[0] * size[0] * self.parent.size[0],
+                resolution[1] * size[1] * self.parent.size[1]
             )
         else:
-            size = (
+            _size = (
                 resolution[0] * self.size[0],
                 resolution[1] * self.size[1],
             )
-        return size
+        return _size
+    
+    def get_screen_size_resolution(self, size = None, resolution = 1):
+
+        _size = self.get_screen_size(size)
+        _size = (
+            _size[0],
+            _size[1] * resolution
+        )
+        debug(_size)
+        return _size
 
     
     def get_local_pos(self, position : tuple[int, int]):

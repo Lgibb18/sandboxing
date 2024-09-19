@@ -3,8 +3,9 @@ import json
 path = "Assets/Settings/settings.json"
 class __Settings:
     def __init__(self):
-        self.steps = 10
-        self.targetFps = 60
+        self.steps : int = 10
+        self.targetFps : int = 60
+        self.iterations : int = 10
         self.load()
 
     def load_from_dict(self, d):
