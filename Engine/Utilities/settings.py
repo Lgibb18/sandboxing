@@ -1,5 +1,6 @@
 import pygame as pg
 import json
+from Engine.Utilities.logger import *
 path = "Assets/Settings/settings.json"
 class __Settings:
     def __init__(self):
@@ -27,10 +28,10 @@ class __Settings:
                 data = f.read()
                 self.load_from_dict(json.loads(data))
         except FileNotFoundError as e:
-            print(f"Creating a new options.json")
+            info(f"Creating a new options.json")
             self.save()
         except ValueError as e:
-            print(f"Settings was broken. Creating a new options.json")
+            warn(f"Settings was broken. Creating a new options.json")
             self.save()
 
 

@@ -1,5 +1,5 @@
 {
-    "iterations": 100,
-    "steps": 1,
+    "iterations": 10,
+    "steps": 10,
     "targetFps": 100
 }

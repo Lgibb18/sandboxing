@@ -10,7 +10,8 @@ class control_kwargs(TypedDict):
     size: tuple[float, float]
     parent: object
     surface: pg.Surface
-    stretch: bool
+    stretchX: bool
+    stretchY: bool
     color: pg.Color
     path: str
     visible: bool
@@ -22,7 +23,9 @@ class control:
         self.position = (0, 0)
         self.size = (100, 100)
         self.surface = pg.Surface(self.size)
-        self.stretch = False
+        self.surface = self.surface.convert_alpha()
+        self.stretchX = False
+        self.stretchY = False
         self.color = pg.Color(255,255,255,255)
         self.path = ""
         self.visible = True
@@ -104,34 +107,34 @@ class control:
     
     def set_size(self, size : tuple[float, float]):
         screen_size = self.get_screen_size()
-        if self.stretch:
+        if self.stretchX or self.stretchY:
             if self.surface.get_rect().size == screen_size: return
         else:
             if self.surface.get_rect().size == size: return
         self.size = size
-        if self.stretch:
+        if self.stretchX or self.stretchY:
             self.surface = pg.transform.scale(self.surface, screen_size)
         else:
             self.surface = pg.transform.scale(self.surface, self.size)
 
     def set_size_dont_update(self, size : tuple[float, float]):
         screen_size = self.get_screen_size(size)
-        if self.stretch:
+        if self.stretchX or self.stretchY:
             if self.surface.get_rect().size == screen_size: return
         else:
             if self.surface.get_rect().size == size: return
-        if self.stretch:
+        if self.stretchX or self.stretchY:
             self.surface = pg.transform.scale(self.surface, screen_size)
         else:
             self.surface = pg.transform.scale(self.surface, size)
 
     def set_size_dont_update_resolution(self, size : tuple[float, float], resolution : float):
         screen_size = self.get_screen_size_resolution(size, resolution)
-        if self.stretch:
+        if self.stretchX or self.stretchY:
             if self.surface.get_rect().size == screen_size: return
         else:
             if self.surface.get_rect().size == size: return
-        if self.stretch:
+        if self.stretchX or self.stretchY:
             self.surface = pg.transform.scale(self.surface, screen_size)
         else:
             self.surface = pg.transform.scale(self.surface, size)
@@ -142,7 +145,7 @@ class control:
         else: 
             self.surface = pg.image.load(self.path)
             self.surface.fill(self.color, special_flags=pg.BLEND_RGB_MULT)
-        self.surface.convert_alpha()
+        self.surface = self.surface.convert_alpha()
         
     
     def get_rect(self):
@@ -173,7 +176,8 @@ class control:
 
     def get_screen_size(self, size = None):
         if size == None: size = self.size
-        if not self.stretch: return size
+        if (not self.stretchX) and (not self.stretchY): return size
+    
         _size = self.size
         resolution = pg.display.get_window_size()
         if isinstance(self.parent, control):
@@ -186,16 +190,25 @@ class control:
                 resolution[0] * self.size[0],
                 resolution[1] * self.size[1],
             )
+        if not self.stretchX: _size = (self.size[0], _size[1])
+        if not self.stretchY: _size = (_size[0], self.size[1])
+        if _size[1] == 0: _size = (_size[0], self.surface.get_rect().height)
+        if _size[0] == 0: _size = (self.surface.get_rect().width, _size[1])
         return _size
     
     def get_screen_size_resolution(self, size = None, resolution = 1):
+        _size = self.get_screen_size(size)
+        if _size[0] != 0: _size = self.get_screen_size_resolution_index(size, resolution, 0)
+        if _size[1] != 0: _size = self.get_screen_size_resolution_index(size, resolution, 1)
+        return _size
+    
+    def get_screen_size_resolution_index(self, size = None, resolution = 1, index: int = 0):
 
         _size = self.get_screen_size(size)
         _size = (
-            _size[0],
-            _size[1] * resolution
+            _size[index],
+            _size[index] * resolution
         )
-        debug(_size)
         return _size
 
     
@@ -212,6 +225,7 @@ class control:
             child.set_parent(self)
         else:
             fatal(f"{child} is not a control")
+        return child
 
     def set_parent(self, parent):
         if isinstance(self.parent, list):

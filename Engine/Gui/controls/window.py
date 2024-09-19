@@ -1,12 +1,22 @@
 from Engine.Gui.imports import *
-
 class window(control):
+
+    class window_kwargs(control_kwargs):
+        title_color: pg.Color
+
     __is_dragging : bool = False
     __is_clicking : bool = False
     __drag_offset : tuple[float, float] = (0, 0)
-    def __init__(self, **kwargs: Unpack[control_kwargs]):
+    def __init__(self, **kwargs: Unpack[window_kwargs]):
         super().__init__(**kwargs)
+        self.color = pg.Color(51,63,60, 128)
+        self.title_color = pg.Color(22,48,58, 128)
+        for key, value in kwargs.items():
+            self.__setattr__(key, value)
+        self.title_panel = self.add_child(control(color=self.title_color, size=(1, 30), stretchX=True, position=(0, 1.085)))
+        self.set_color(self.color)
         sign_update(self.update)
+
 
     def is_dragging(self): return self.__is_dragging
     
@@ -15,7 +25,7 @@ class window(control):
             self.__is_dragging = False
             self.__is_clicking = False
         if type(self.parent) is not list: return
-        if self.is_clicked() and not self.__is_dragging and not self.__is_clicking:
+        if self.title_panel.is_clicked() and not self.__is_dragging and not self.__is_clicking:
                 rtrn = False
                 for control in self.parent[self.parent.index(self):]:
                      if control is self: continue

@@ -4,23 +4,28 @@ class label(control):
 
     class text_kwargs(control_kwargs):
         text: str
-        font: pg.font.Font
+        font: str
+        font_size : int
+        background_color : pg.Color
 
     def __init__(self, **kwargs: Unpack[text_kwargs]):
         super().__init__(**kwargs)
         self.text = "hello world"
-        self.font = pg.font.Font("Assets/Fonts/Arco.ttf", 15)
+        self.font_size = 15
+        self.font = "Assets/Fonts/Arco.ttf"
+        self.background_color = None
         for key, value in kwargs.items():
             self.__setattr__(key, value)
+        self.__font = pg.font.Font(self.font, self.font_size)
         sign_draw(self.draw)
 
     def draw(self):
-        self.surface = self.font.render(self.text, True, self.color)
+        self.surface = self.__font.render(self.text, True, self.color, self.background_color)
         rect = self.surface.get_rect()
-        resolution = rect.width / rect.height
-        self.set_size_dont_update_resolution((
-            self.size[0],
-            self.size[1]),
-            rect.height / rect.width
-            )
+        if self.size[0] != 0 or self.size[1] != 0:
+            self.set_size_dont_update_resolution((
+                self.size[0],
+                self.size[1]),
+                rect.height / rect.width
+                )
     

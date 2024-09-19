@@ -15,32 +15,10 @@ class TestUICommand:
         self.window = window(
             position=(-random.random()+random.random(),-random.random()+random.random()),
             size=(0.3, 0.5),
-            stretch=True,
+            stretchX=True,
+            stretchY=True,
             parent=gui.tree
         )
-        self.button = button(
-            size=(0.3, 0.3),
-            position=(0, 0.5),
-            stretch=True,
-            parent=self.window
-        )
-        self.button2 = button(
-            size=(0.3, 0.3),
-            on_click=self.window.destroy,
-            position=(0, -0.5),
-            stretch=True,
-            parent=self.window
-        )
-        self.label = label(
-            stretch=True,
-            size=(1,1),
-            position=(0,0),
-            text="shimmy, shimmy ya",
-            parent=self.window
-        )
-        self.button.on_click = self.button.destroy
-        self.window.set_color(pg.Color(random.randint(0,255), random.randint(0,255), random.randint(0,255), 255))
-
 
 
 
