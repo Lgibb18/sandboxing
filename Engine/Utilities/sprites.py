@@ -64,7 +64,6 @@ class Sprites:
             []  # 9
         ]
 
-
 every_sprites : Sprites = None
 disabled_layers = []
 to_blit : list[list[tuple[pg.Surface, tuple[int, int]]]] = [
