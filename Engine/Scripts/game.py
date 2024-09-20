@@ -20,7 +20,7 @@ class Game:
         self.resolution = (1280, 720)
         flags = pg.DOUBLEBUF# | RESIZABLE
         self.screen = pg.display.set_mode(self.resolution, flags)
-        self.manager = pygame_gui.UIManager(self.resolution)
+        self.manager = pygame_gui.UIManager(self.resolution, theme_path="Assets/Settings/ui_theme.json")
 
         icon = pg.image.load("Assets/Sprites/db.png")
         pg.display.set_icon(icon) 

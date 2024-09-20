@@ -1,0 +1,69 @@
+{
+    "defaults": {
+        "colours": {
+            "normal_bg": "#1C3D4980",
+            "hovered_bg": "#28576880",
+            "disabled_bg": "#152E3880",
+            "normal_border": "#0000",
+            "selected_bg": "#2F7A7A80"
+        }
+    },
+    "window": {
+        "colours": {
+            "normal_bg": "#1C3D4980",
+            "hovered_bg": "#28576880",
+            "disabled_bg": "#152E3880",
+            "selected_bg": "#2F7A7A80",
+            "dark_bg": "#333F3C80",
+            "normal_border": "#000000"
+        },
+        "misc": {
+            "shape": "rounded_rectangle",
+            "shape_corner_radius": "10",
+            "border_width": "0",
+            "shadow_width": "15",
+            "title_bar_height": "20"
+        }
+    },
+    "#font_default": {
+        "font": {
+            "name": "montserrat",
+            "size": "12",
+            "bold": "0",
+            "italic": "1",
+            "regular_resource": {
+                "package": "Assets.Fonts",
+                "resource": "Arco.ttf"
+            }
+        }
+    },
+    "window.#title_bar": {
+        "prototype": "#font_default",
+        "colours": {
+            "normal_bg": "#1C3D4900",
+            "hovered_bg": "#28576800",
+            "disabled_bg": "#152E3800",
+            "active_bg": "#316C7F00"
+        },
+        "misc": {
+            "shape": "rounded_rectangle",
+            "shape_corner_radius": "10",
+            "text_horiz_alignment": "center",
+            "border_width": "0"
+        }
+    },
+    "window.#close_button": {
+        "colours": {
+            "normal_bg": "#1C3D4900",
+            "hovered_bg": "#28576800",
+            "disabled_bg": "#152E3800",
+            "active_bg": "#316C7F00"
+        },
+        "misc": {
+            "shape": "rounded_rectangle",
+            "shape_corner_radius": "10",
+            "text_horiz_alignment": "center",
+            "border_width": "0"
+        }
+    }
+}
