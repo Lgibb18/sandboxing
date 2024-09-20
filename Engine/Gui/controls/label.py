@@ -6,6 +6,7 @@ class label(control):
         text: str
         font: str
         font_size : int
+        max_x: int
         background_color : pg.Color
 
     def __init__(self, **kwargs: Unpack[text_kwargs]):
@@ -13,6 +14,7 @@ class label(control):
         self.text = "hello world"
         self.font_size = 15
         self.font = "Assets/Fonts/Arco.ttf"
+        self.max_x = 0.3
         self.background_color = None
         for key, value in kwargs.items():
             self.__setattr__(key, value)
@@ -21,11 +23,3 @@ class label(control):
 
     def draw(self):
         self.surface = self.__font.render(self.text, True, self.color, self.background_color)
-        rect = self.surface.get_rect()
-        if self.size[0] != 0 or self.size[1] != 0:
-            self.set_size_dont_update_resolution((
-                self.size[0],
-                self.size[1]),
-                rect.height / rect.width
-                )
-    

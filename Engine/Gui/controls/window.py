@@ -1,8 +1,11 @@
 from Engine.Gui.imports import *
+from Engine.Gui.controls.label import *
+from Engine.Gui.controls.label_button import *
 class window(control):
 
     class window_kwargs(control_kwargs):
         title_color: pg.Color
+        title: str
 
     __is_dragging : bool = False
     __is_clicking : bool = False
@@ -11,12 +14,15 @@ class window(control):
         super().__init__(**kwargs)
         self.color = pg.Color(51,63,60, 128)
         self.title_color = pg.Color(22,48,58, 128)
+        self.title = "Window"
         for key, value in kwargs.items():
             self.__setattr__(key, value)
-        self.title_panel = self.add_child(control(color=self.title_color, size=(1, 30), stretchX=True, position=(0, 1.085)))
+        self.title_panel = self.add_child(control(color=self.title_color, size=(1, 30), stretchX=True, position=(0, 1.07)))
+        self.title_panel.add_child(label(text="window", size=(0.98, 25), stretchX=True, font_size=25))
+        self.crutch = self.title_panel.add_child(control(name="crutch", size=(30, 30), position=(0.5, 0), color=pg.Color(0,0,0,128)))
+        self.crutch.add_child(label_button(text="X", size=(0, 25), position=(0, 0), font_size=25, on_click=self.destroy))
         self.set_color(self.color)
         sign_update(self.update)
-
 
     def is_dragging(self): return self.__is_dragging
     
@@ -25,7 +31,7 @@ class window(control):
             self.__is_dragging = False
             self.__is_clicking = False
         if type(self.parent) is not list: return
-        if self.title_panel.is_clicked() and not self.__is_dragging and not self.__is_clicking:
+        if self.is_clicked() and not self.__is_dragging and not self.__is_clicking:
                 rtrn = False
                 for control in self.parent[self.parent.index(self):]:
                      if control is self: continue

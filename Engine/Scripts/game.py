@@ -18,8 +18,9 @@ class Game:
         info("Hello, world!")        
         pg.init()
         self.resolution = (1280, 720)
-        flags = DOUBLEBUF | pg.RESIZABLE
+        flags = DOUBLEBUF | RESIZABLE
         self.screen = pg.display.set_mode(self.resolution, flags)
+
         icon = pg.image.load("Assets/Sprites/db.png")
         pg.display.set_icon(icon) 
         pg.display.set_caption('Nighty box 2', 'nb2')
@@ -80,5 +81,5 @@ class Game:
     def draw(self):
         self.screen.fill(pg.Color(134, 183, 181))
         [m() for m in draw_methods]
-        pg.display.update()
+        pg.display.flip()
 

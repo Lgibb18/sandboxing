@@ -7,7 +7,7 @@ from Engine.Gui.controls.label import *
 from Engine.Utilities.logger import *
 from Engine.Utilities.loop import *
 import random
-class TestUICommand:
+class TestUICommand2:
     def __init__(self, name):
         commands.all_commands[name] = self
 
@@ -22,4 +22,4 @@ class TestUICommand:
 
 
 
-Command = TestUICommand("test")
+Command = TestUICommand2("test2")

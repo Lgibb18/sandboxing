@@ -12,7 +12,7 @@ class button(control):
     def __init__(self, **kwargs: Unpack[button_kwargs]):
         super().__init__(**kwargs)
         sign_update(self.update)
-        self.on_click = None
+        self.on_click = lambda : 0
         self.on_click_args = None
         self.clicked_color = pg.Color(200,200,200,255)
         self.normal_color = self.color
