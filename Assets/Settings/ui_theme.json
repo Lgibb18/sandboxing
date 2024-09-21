@@ -1,7 +1,34 @@
 {
+    "#inv_button": {
+        "colours": {
+            "normal_border": "#00000000",
+            "normal_bg": "#16281A40",
+            "hovered_bg": "#0E191060",
+            "active_bg": "#3A684270"
+        },
+        "misc": {
+            "border_width": "0",
+            "shape": "rounded_rectangle",
+            "shape_corner_radius": "5"
+        }
+    },
+    "#inv_tab": {
+        "colours": {
+            "dark_bg": "#1C3D4980"
+        }
+    },
+    "#inv_row": {
+        "colours": {
+            "dark_bg": "#00000000",
+            "normal_border": "#00000000"
+        },
+        "misc": {
+            "border_width": "0",
+            "shadow_width": "0"
+        }
+    },
     "defaults": {
         "colours": {
-            "normal_bg": "#1C3D4980",
             "hovered_bg": "#28576880",
             "disabled_bg": "#152E3880",
             "normal_border": "#0000",

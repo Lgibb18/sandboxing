@@ -25,7 +25,7 @@ class MapEntity:
 
 
     def instantiate(self, transform: Transform):
-        sef = MapEntity()
+        sef = self.__class__()
         sef.entity.instantiate(transform)
         entities.created_entities.append(sef.entity)
 

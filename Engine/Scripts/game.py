@@ -12,15 +12,16 @@ from Engine.Utilities.logger import *
 from Engine.Utilities.loop import *
 import Engine.Scripts.gui
 import pygame_gui
+from Engine.Utilities.manager import *
 space = pm.Space()
 class Game:
     def __init__(self):
         info("Hello, world!")        
         pg.init()
         self.resolution = (1280, 720)
-        flags = pg.DOUBLEBUF# | RESIZABLE
+        flags = pg.DOUBLEBUF | pg.RESIZABLE
         self.screen = pg.display.set_mode(self.resolution, flags)
-        self.manager = pygame_gui.UIManager(self.resolution, theme_path="Assets/Settings/ui_theme.json")
+        manager.manager = pygame_gui.UIManager(self.resolution, theme_path="Assets/Settings/ui_theme.json")
 
         icon = pg.image.load("Assets/Sprites/db.png")
         pg.display.set_icon(icon) 
@@ -29,7 +30,7 @@ class Game:
         self.sprites = Sprites(self.screen)
         Engine.Utilities.sprites.every_sprites = self.sprites
         self.console = Console(self.screen)
-        self.inventory = Inventory(self.screen)
+        self.inventory = Inventory()
         self.done = False
         self.clock = pg.time.Clock()
         clock.main_clock = self.clock
@@ -52,7 +53,7 @@ class Game:
             self.run_logic()
             self.draw()
             self.handle_events()
-            self.manager.update(self.dt)
+            manager.manager.update(self.dt)
             self.current_fps = self.clock.get_fps()
             events.keyboard_list.clear()
         info("Goodbye!")
@@ -63,7 +64,7 @@ class Game:
         Events()
         [m() for m in update_methods]
         for event in events.event_list:
-            self.manager.process_events(event)
+            manager.manager.process_events(event)
             if event.type == pg.QUIT:
                 self.done = True
 
@@ -82,6 +83,6 @@ class Game:
     def draw(self):
         self.screen.fill(pg.Color(134, 183, 181))
         [m() for m in draw_methods]
-        self.manager.draw_ui(self.screen)
+        manager.manager.draw_ui(self.screen)
         pg.display.flip()
 

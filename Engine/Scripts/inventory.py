@@ -4,63 +4,120 @@ from Engine.Scripts.camera import *
 import Engine.Utilities.sprites as sprites
 from Engine.Utilities.sprites import *
 from Engine.Utilities.utils import *
-
+import pygame_gui
+from pygame_gui.elements import *
 from Engine.Utilities.loop import *
-
+from Engine.Utilities.logger import *
+from Engine.Utilities.manager import *
+import Engine.Scripts.events
+from pygame_gui.core.ui_element import UIElement
+from typing import Union, Tuple, Dict, Iterable, Callable, Optional, Any
+from pygame_gui.core.gui_type_hints import Coordinate, RectLike
+import time
+BUTTON_SIZE = 70
+IMAGE_SIZE = BUTTON_SIZE / 1.4
 class Cell:
-    pos : tuple[int, int] = (0,0)
-    def __init__(self, entity, surface, number):
+    def __init__(self, relative_rect : Union[RectLike, Coordinate], entity, parent : UIElement, anchors: Dict[str, str | UIElement] = {}):
+        global BUTTON_SIZE, IMAGE_SIZE
         self.entity = entity
-        self.surface : pg.Surface = surface
-        self.number = number
+        self.button = UIButton(relative_rect=relative_rect, text="", anchors=anchors, container=parent.get_container(), object_id="#inv_button")
+        self.image = UIImage(relative_rect=pg.Rect((BUTTON_SIZE - IMAGE_SIZE)/2, (BUTTON_SIZE - IMAGE_SIZE)/2, IMAGE_SIZE, IMAGE_SIZE), image_surface=entity.entity.icon, parent_element=self.button, container=parent.get_container(), 
+                               anchors = anchors)
+        if type(self.image.image) is pg.surface.Surface:
+            self.image.set_image(pg.transform.scale(entity.entity.icon, (64, 64)), False)
+    
+    def is_clicked(self) -> bool:
+        for event in events.event_list:
+            if event.type == pygame_gui.UI_BUTTON_PRESSED:
+                if event.ui_element == self.button:
+                    return True
+        return False
+
+class Row:
+    def __init__(self, parent : UIElement, prev_row : UIElement | None = None):
+        global BUTTON_SIZE
+        sign_update(self.update)
+        resolution = pg.display.get_window_size()
+        self._cells : list[Cell] = []
+        self.panel = UIPanel(
+            (0, 5, ((resolution[0] / 5) // BUTTON_SIZE) * BUTTON_SIZE, BUTTON_SIZE-5),
+            anchors={
+                'centerx': 'centerx'
+            },
+            margins={'left': 0, 'right': 0, 'top': -3, 'bottom': -3},
+            container=parent.get_container(),
+            object_id="#inv_row"
+        )
+        if prev_row != None:
+            self.panel.set_anchors({
+                'centerx': 'centerx',
+                'top_target': prev_row
+            })
+
+    def update(self):
+        resolution = pg.display.get_window_size()
+        self.panel.set_dimensions((((resolution[0] / 5) // BUTTON_SIZE) * BUTTON_SIZE, BUTTON_SIZE-5))
+
+
+    def add_cell(self, entity):
+        cell = Cell(pg.Rect(0, 0, BUTTON_SIZE, BUTTON_SIZE), entity, self.panel)
+        if len(self._cells) > 0:
+            cell.button.set_anchors({
+                'left_target': self._cells[-1].button
+            })
+            self._cells.append(cell)
+            cell.image.set_anchors({
+                'left_target': self._cells[-2].button,
+            })
+        else: self._cells.append(cell)
+        return cell
 
 
 class Inventory:
-    def __init__(self, screen):
-        sign_draw(self.draw)
+    def __init__(self) -> None:
         sign_update(self.update)
-
-        self.screen = screen
-        self.active = True
+        resolution = pg.display.get_window_size()
+        self.selected_entity : Entity
         self.cells = []
-        self.selected : str = "planks"
-        self.tabSize = (0,0)
-        n = 0
-        for i in list(all_entities.values()):
-            self.cells.append(Cell(i, i.entity.icon, n))
-            n += 1
+        self.rect = pg.Rect(0, 0, resolution[0] / 5, resolution[1]-30)
+        self.panel = UIPanel(self.rect, manager=manager.manager,
+            margins={'left': 0, 'right': 0, 'top': 3, 'bottom': 3}, object_id="#inv_tab",
+            anchors={"centery": "centery"})
+        self.max_row_length = (resolution[0] / 5) / BUTTON_SIZE
+        self.rebuild()
 
-    def draw(self):
-        if self.active:
-            resolution = pg.display.get_window_size()
-            self.tabSize = (resolution[0] / 5, resolution[1])
-            self.surface = pg.Surface(self.tabSize).convert_alpha()
-            self.surface.fill((128, 128, 128, 128))
-            sprites.blit_layer(self.surface, (0, 0), LAYER_7_UI)
-            for cell in self.cells:
-                b : pg.Surface = cell.surface
-                b = pg.transform.scale(b, (self.tabSize[0] / 4, self.tabSize[0] / 4))
-                column = cell.number - (int(cell.number / 3) * 3)
-                line = (int(cell.number / 3))
-                cell.pos = (
-                    column * (self.tabSize[0] / 4) + ((self.tabSize[0] / 16) * (column + 1)),
-                    line * (self.tabSize[0] / 4) + ((self.tabSize[0] / 16) * (line + 1))
-                )
-                sprites.blit_layer(b, cell.pos, LAYER_7_UI)
-
-
-
+    rows : list[Row] = []
+    def rebuild(self):
+        self.cells : list[Cell] = []
+        for row in self.rows:
+            row.panel.kill()
+        self.rows = []
+        resolution = pg.display.get_window_size()
+        row = Row(self.panel)
+        self.rows.append(row)
+        i = 0
+        for entity in all_entities.values():
+            i += 1
+            if i > self.max_row_length:
+                row = Row(self.panel, row.panel)
+                self.rows.append(row)
+                i = 1
+            self.cells.append(row.add_cell(entity))
+        manager.manager.set_window_resolution((resolution[0], resolution[1]))
+        self.selected_entity = self.cells[0].entity
 
     def update(self):
+        resolution = pg.display.get_window_size()
+        self.max_row_length = (resolution[0] / 5) // BUTTON_SIZE
         for cell in self.cells:
-            rect = cell.surface.get_rect()
-            if collision_check_topleft(pg.mouse.get_pos(), cell.pos, (self.tabSize[0] / 4, self.tabSize[0] / 4)):
+            if cell.is_clicked():
+                self.selected_entity = cell.entity
 
-                if pg.mouse.get_pressed(3)[0]:
-                    self.selected = cell.entity.entity.id
+        for event in events.event_list:
+            if event.type == pg.VIDEORESIZE:
+                    self.panel.set_dimensions((event.w / 5, event.h))
+                    self.rebuild()
         for (_, key) in events.keyboard_list:
-            if key == pg.K_TAB:
-                self.active = not self.active
             if key == pg.K_e:
-                if self.selected != None:
-                    Instantiate(self.selected, Transform(camera.mouse_pos()))
+                if self.selected_entity != None:
+                    self.selected_entity.instantiate(Transform(camera.mouse_pos()))

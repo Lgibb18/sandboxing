@@ -1,5 +1,6 @@
 {
-    "iterations": 10,
-    "steps": 10,
+    "iterations": 100,
+    "spriteReso": 16,
+    "steps": 1,
     "targetFps": 100
 }

@@ -7,6 +7,7 @@ class __Settings:
         self.steps : int = 10
         self.targetFps : int = 60
         self.iterations : int = 10
+        self.spriteReso : int = 16
         self.load()
 
     def load_from_dict(self, d):

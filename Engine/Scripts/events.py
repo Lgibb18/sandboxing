@@ -1,5 +1,6 @@
 import pygame as pg
 import Engine
+from Engine.Utilities.manager import *
 
 event_list : list[pg.event.Event] = []
 keyboard_event = None
@@ -22,4 +23,6 @@ class Events:
                 if event.type == pg.KEYDOWN:
                     Engine.Scripts.events.keyboard_event = event
                     keyboard_list.append((event, event.key))
+                if event.type == pg.VIDEORESIZE:
+                    manager.manager.set_window_resolution((event.w, event.h))
 

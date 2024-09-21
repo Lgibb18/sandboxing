@@ -1,23 +1,23 @@
+import pymunk as pm
 from Engine.Utilities.sprites import *
 import Engine.Scripts.entities as entities
-import pymunk as pm
 
 # Components
 from Scripts.Components.SpriteComponent import *
 from Scripts.Components.DraggableComponent import *
 
 
-class StoneEntity:
+class SmallTileStoneEntity:
     canBeInMenu = True
     def __new__(cls, *args, **kwargs):
         instance = super().__new__(cls)
         return instance
     def __init__(self):
         self.entity = Entity(
-            id = "stone",
-            name = "Stone",
+            id = "smallTileStone",
+            name = "Small Tile Stone",
             components = [
-                SpriteComponent(pg.image.load("Assets/Sprites/stone.png"), LAYER_4_OBJECTS),
+                SpriteComponent(pg.image.load("Assets/Sprites/small_tile_stone.png"), LAYER_4_OBJECTS),
                 PhysicsComponent(pm.Body.DYNAMIC),
                 DraggableComponent()
             ]
@@ -30,4 +30,4 @@ class StoneEntity:
         entities.created_entities.append(sef.entity)
 
 
-StoneEntity()
+SmallTileStoneEntity()

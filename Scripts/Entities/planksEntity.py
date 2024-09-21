@@ -25,7 +25,7 @@ class PlanksEntity:
         entities.all_entities[self.entity.id] = self
 
     def instantiate(self, transform: Transform):
-        sef = PlanksEntity()
+        sef = self.__class__()
         sef.entity.instantiate(transform)
         entities.created_entities.append(sef.entity)
 

@@ -1,9 +1,20 @@
 from Scripts.Components.PhysicsComponent import *
 import pygame as pg
 import Engine.Utilities.sprites as sprites
-
-
+from Engine.Utilities.settings import *
 class SpriteComponent(pg.sprite.Sprite, Component):
+
+    def resize_by_pix(self, surface : pg.Surface, size : int):
+        count = min(size, 128)
+        if count > 16:
+            surface = self.resize_by_pix(surface, 16)
+            for _ in range((count // 16)-1):
+                surface = pg.transform.scale2x(surface)
+        else:
+            surface = pg.transform.scale(surface, (count, count))
+        return surface
+
+
     def __init__(self, surface : pg.Surface, spriteLayer: int = 4, scale: tuple[float, float] = (1,1)):
         self.spriteLayer = spriteLayer
         self.surface = surface
@@ -13,6 +24,7 @@ class SpriteComponent(pg.sprite.Sprite, Component):
 
     def Start(self, entity: Entity):
         super().__init__()
+        self.surface = self.resize_by_pix(self.surface, Settings.spriteReso)
         self.orig_image = self.surface.convert_alpha()
         self.orig_image = pg.transform.scale(self.orig_image, (entity.transform.scale[0] * self.scale[0], entity.transform.scale[1] * self.scale[1]))
         self.image = self.orig_image
@@ -21,6 +33,8 @@ class SpriteComponent(pg.sprite.Sprite, Component):
 
 
     def Update(self, entity: Entity):
+        
+        
         self.rect.center = entity.transform.position
         if entity.transform.get_prev_rotation() != entity.transform.rotation:
             self.image = pg.transform.rotate(self.orig_image, entity.transform.rotation)
