@@ -17,14 +17,13 @@ class SpriteComponent(pg.sprite.Sprite, Component):
 
     def __init__(self, surface : pg.Surface, spriteLayer: int = 4, scale: tuple[float, float] = (1,1)):
         self.spriteLayer = spriteLayer
-        self.surface = surface
+        self.surface = self.resize_by_pix(surface, Settings.spriteReso)
         self.scale = scale
         if(spriteLayer > 8 or spriteLayer < 0):
             raise Exception(f"layer {spriteLayer} not in range (0,8)")
 
     def Start(self, entity: Entity):
         super().__init__()
-        self.surface = self.resize_by_pix(self.surface, Settings.spriteReso)
         self.orig_image = self.surface.convert_alpha()
         self.orig_image = pg.transform.scale(self.orig_image, (entity.transform.scale[0] * self.scale[0], entity.transform.scale[1] * self.scale[1]))
         self.image = self.orig_image
