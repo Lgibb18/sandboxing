@@ -79,7 +79,7 @@ class Inventory:
         resolution = pg.display.get_window_size()
         self.selected_entity : Entity
         self.cells = []
-        self.rect = pg.Rect(0, 0, resolution[0] / 5, resolution[1]-30)
+        self.rect = pg.Rect(0, 0, resolution[0] / 5, resolution[1])
         self.panel = UIPanel(self.rect, manager=manager.manager,
             margins={'left': 0, 'right': 0, 'top': 3, 'bottom': 3}, object_id="#inv_tab",
             anchors={"centery": "centery"})
