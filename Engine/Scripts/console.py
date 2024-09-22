@@ -6,6 +6,8 @@ from Engine.Params.loop import *
 
 class Console:
     def __init__(self, screen : pg.Surface):
+        sign_draw(self.draw)
+        sign_update(self.update)
         self.text = ""
         self.screen = screen
         self.enabled = False
@@ -16,7 +18,6 @@ class Console:
         self.shift = False
         self.last_command = ""
 
-    @Draw
     def draw(self):
         if self.enabled:
             self.surface = pg.surface.Surface((self.screen.get_width(), 25)).convert_alpha()
@@ -26,7 +27,6 @@ class Console:
             self.text_surface = self.font.render(f'> {self.text}', True, self.text_color)
             self.screen.blit(self.text_surface, (0, 25/5))
 
-    @Update
     def update(self):
         for (event, key) in events.keyboard_list:
             if key == pg.K_BACKQUOTE or key == 1105 : #1105 = ё
