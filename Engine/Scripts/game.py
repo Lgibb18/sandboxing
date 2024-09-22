@@ -7,13 +7,13 @@ from Engine.Scripts.entities import *
 from pymunk import Vec2d
 import pymunk as pm
 import Engine.Utilities.clock as clock
-from Engine.Utilities.settings import *
+from Engine.Params.settings import *
 from Engine.Utilities.logger import *
-from Engine.Utilities.loop import *
+from Engine.Params.loop import *
 import pygame_gui
-from Engine.Utilities.manager import *
+from Engine.Params.manager import *
 space = pm.Space()
-from Engine.Utilities.classes import classes
+from Engine.Params.classes import classes
 class Game:
     def __init__(self):
         info("Hello, world!")        

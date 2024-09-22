@@ -6,14 +6,14 @@ from Engine.Utilities.sprites import *
 from Engine.Utilities.utils import *
 import pygame_gui
 from pygame_gui.elements import *
-from Engine.Utilities.loop import *
+from Engine.Params.loop import *
 from Engine.Utilities.logger import *
-from Engine.Utilities.manager import *
+from Engine.Params.manager import *
 import Engine.Scripts.events
 from pygame_gui.core.ui_element import UIElement
 from typing import Union, Dict
 from pygame_gui.core.gui_type_hints import Coordinate, RectLike
-from Engine.Utilities.settings import *
+from Engine.Params.settings import *
 BUTTON_SIZE = 70
 IMAGE_SIZE = BUTTON_SIZE / 1.4
 class Cell:

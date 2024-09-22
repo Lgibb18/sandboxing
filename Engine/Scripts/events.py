@@ -1,6 +1,6 @@
 import pygame as pg
 import Engine
-from Engine.Utilities.manager import *
+from Engine.Params.manager import *
 
 event_list : list[pg.event.Event] = []
 keyboard_event = None

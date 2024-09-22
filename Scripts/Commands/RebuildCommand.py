@@ -1,6 +1,6 @@
 import Engine.Scripts.commands as commands
 from Engine.Utilities.logger import *
-from Engine.Utilities.classes import classes
+from Engine.Params.classes import classes
 class RebuildCommand:
     def __init__(self, name):
         commands.all_commands[name] = self

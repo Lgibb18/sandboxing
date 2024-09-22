@@ -2,7 +2,7 @@ import Engine.Scripts.events as events
 from Engine.Scripts.commands import *
 from Engine.Utilities.logger import *
 import pygame as pg
-from Engine.Utilities.loop import *
+from Engine.Params.loop import *
 
 class Console:
     def __init__(self, screen : pg.Surface):

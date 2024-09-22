@@ -3,7 +3,7 @@ import pygame as pg
 import asyncio
 import Engine
 import Engine.Utilities
-from Engine.Utilities.loop import *
+from Engine.Params.loop import *
 
 LAYER_0_UNDER_GROUND = 0
 LAYER_1_GROUND = 1

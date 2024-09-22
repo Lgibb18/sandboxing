@@ -16,7 +16,7 @@ class PhysicsComponent(Component):
         entity.transform.position = flipy(entity.transform.position)
         moment = pm.moment_for_box(self.mass, (entity.transform.scale[0], entity.transform.scale[1]))
         self.body = pm.Body(self.mass, moment, self.bodyType)
-        self.shape = pm.Poly.create_box(self.body, entity.transform.scale)
+        self.shape = pm.Poly.create_box(self.body, (entity.transform.scale[0]-1, entity.transform.scale[1]-1))
         self.shape.friction = self.friction
         self.shape.elasticity = self.elasticity
         self.body.position = entity.transform.position

@@ -1,5 +1,5 @@
 from Engine.Scripts.entity import *
-from Engine.Utilities.loop import *
+from Engine.Params.loop import *
 all_entities: dict = {}
 created_entities : list[Entity] = []
 

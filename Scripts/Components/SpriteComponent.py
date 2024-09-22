@@ -1,7 +1,7 @@
 from Scripts.Components.PhysicsComponent import *
 import pygame as pg
 import Engine.Utilities.sprites as sprites
-from Engine.Utilities.settings import *
+from Engine.Params.settings import *
 class SpriteComponent(pg.sprite.Sprite, Component):
 
     def resize_by_pix(self, surface : pg.Surface, size : int):

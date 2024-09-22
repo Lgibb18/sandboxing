@@ -1,7 +1,7 @@
 import Engine.Scripts.commands as commands
 import Engine.Utilities.clock as clock
 from Engine.Utilities.logger import *
-from Engine.Utilities.loop import *
+from Engine.Params.loop import *
 from pygame_gui.elements import *
 import pygame as pg
 class TestUICommand:
