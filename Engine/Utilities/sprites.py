@@ -17,8 +17,6 @@ LAYER_8_OVER_UI = 8
 
 class Sprites:
     def __init__(self, screen):
-        sign_logic(self.run_logic)
-        sign_draw(self.draw)
         self.all_sprites = [pg.sprite.Group(),
                             pg.sprite.Group(),
                             pg.sprite.Group(),
@@ -30,12 +28,13 @@ class Sprites:
                             pg.sprite.Group()]
         self.screen : pg.Surface = screen
 
+    @Logic
     def run_logic(self):
         for i in self.all_sprites:
             i.update()
 
 
-
+    @Draw
     def draw(self):
         asyncio.run(self.draw_async())
 

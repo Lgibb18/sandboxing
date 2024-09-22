@@ -36,7 +36,6 @@ class Cell:
 class Row:
     def __init__(self, parent : UIElement, prev_row : UIElement | None = None):
         global BUTTON_SIZE
-        sign_update(self.update)
         resolution = pg.display.get_window_size()
         self._cells : list[Cell] = []
         self.panel = UIPanel(
@@ -54,6 +53,7 @@ class Row:
                 'top_target': prev_row
             })
 
+    @Update
     def update(self):
         resolution = pg.display.get_window_size()
         self.panel.set_dimensions((((resolution[0] / 5) // BUTTON_SIZE) * BUTTON_SIZE, BUTTON_SIZE-5))
@@ -75,7 +75,6 @@ class Row:
 
 class Inventory:
     def __init__(self) -> None:
-        sign_update(self.update)
         resolution = pg.display.get_window_size()
         self.enabled = True
         self.selected_entity : Entity
@@ -111,6 +110,7 @@ class Inventory:
         manager.manager.set_window_resolution((resolution[0], resolution[1]))
         self.selected_entity = self.cells[0].entity
 
+    @Update
     def update(self):
         resolution = pg.display.get_window_size()
         self.max_row_length = (resolution[0] / 5) // BUTTON_SIZE

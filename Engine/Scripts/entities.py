@@ -7,9 +7,8 @@ created_entities : list[Entity] = []
 def Instantiate(id : str, transform : Transform):
     all_entities[id].instantiate(transform)
 
-
+@Logic
 def entities_update():
     for i in created_entities:
         i.update()
 
-sign_logic(entities_update)
