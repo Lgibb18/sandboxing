@@ -34,7 +34,7 @@ class Entity:
     def __init__(self,
                  id: str,
                  name: str = "Object",
-                 components: list[m] = [],
+                 components: list = [],
                  icon : pg.Surface = None
                  ):
         self.id = id

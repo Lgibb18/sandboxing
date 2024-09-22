@@ -1,13 +1,10 @@
 import Engine.Scripts.commands as commands
 import Engine.Utilities.clock as clock
-from Engine.Scripts.gui import *
-from Engine.Gui.controls.window import *
-from Engine.Gui.controls.button import *
-from Engine.Gui.controls.label import *
 from Engine.Utilities.logger import *
 from Engine.Utilities.loop import *
 from pygame_gui.elements import *
-class TestUICommand2:
+import pygame as pg
+class TestUICommand:
     def __init__(self, name):
         commands.all_commands[name] = self
 
@@ -19,4 +16,4 @@ class TestUICommand2:
 
 
 
-Command = TestUICommand2("test2")
+Command = TestUICommand("test")

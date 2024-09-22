@@ -10,7 +10,6 @@ import Engine.Utilities.clock as clock
 from Engine.Utilities.settings import *
 from Engine.Utilities.logger import *
 from Engine.Utilities.loop import *
-import Engine.Scripts.gui
 import pygame_gui
 from Engine.Utilities.manager import *
 space = pm.Space()
