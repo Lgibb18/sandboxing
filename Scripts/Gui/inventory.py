@@ -11,9 +11,9 @@ from Engine.Utilities.logger import *
 from Engine.Utilities.manager import *
 import Engine.Scripts.events
 from pygame_gui.core.ui_element import UIElement
-from typing import Union, Tuple, Dict, Iterable, Callable, Optional, Any
+from typing import Union, Dict
 from pygame_gui.core.gui_type_hints import Coordinate, RectLike
-import time
+from Engine.Utilities.settings import *
 BUTTON_SIZE = 70
 IMAGE_SIZE = BUTTON_SIZE / 1.4
 class Cell:
@@ -77,6 +77,7 @@ class Inventory:
     def __init__(self) -> None:
         sign_update(self.update)
         resolution = pg.display.get_window_size()
+        self.enabled = True
         self.selected_entity : Entity
         self.cells = []
         self.rect = pg.Rect(0, 0, resolution[0] / 5, resolution[1])
@@ -88,10 +89,14 @@ class Inventory:
 
     rows : list[Row] = []
     def rebuild(self):
+        global BUTTON_SIZE, IMAGE_SIZE
+        BUTTON_SIZE = Settings.buttonSize
+        IMAGE_SIZE = BUTTON_SIZE / 1.4
         self.cells : list[Cell] = []
         for row in self.rows:
             row.panel.kill()
         self.rows = []
+        if not self.enabled: return
         resolution = pg.display.get_window_size()
         row = Row(self.panel)
         self.rows.append(row)
@@ -121,3 +126,9 @@ class Inventory:
             if key == pg.K_e:
                 if self.selected_entity != None:
                     self.selected_entity.instantiate(Transform(camera.mouse_pos()))
+            if key == pg.K_TAB:
+                self.enabled = not self.enabled
+                for row in self.rows:
+                    for cell in row._cells:
+                        cell.button.visible = self.enabled
+                        cell.image.visible = self.enabled

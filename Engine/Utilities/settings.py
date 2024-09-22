@@ -8,7 +8,9 @@ class __Settings:
         self.targetFps : int = 60
         self.iterations : int = 10
         self.spriteReso : int = 16
+        self.buttonSize : int = 70
         self.load()
+        self.save()
 
     def load_from_dict(self, d):
         for key, value in d.items():

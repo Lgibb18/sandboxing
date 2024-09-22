@@ -1,6 +1,7 @@
 {
+    "buttonSize": 45,
     "iterations": 100,
-    "spriteReso": 16,
+    "spriteReso": 128,
     "steps": 1,
     "targetFps": 100
 }

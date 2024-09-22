@@ -14,7 +14,12 @@
     },
     "#inv_tab": {
         "colours": {
-            "dark_bg": "#1C3D4980"
+            "dark_bg": "#1C3D4900",
+            "normal_border": "#00000000"
+        },
+        "misc": {
+            "border_width": "0",
+            "shadow_width": "0"
         }
     },
     "#inv_row": {

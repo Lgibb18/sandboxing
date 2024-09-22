@@ -2,7 +2,7 @@ import Engine.Utilities
 import Engine.Utilities.sprites
 from Engine.Scripts.events import *
 from Engine.Scripts.console import *
-from Engine.Scripts.inventory import *
+from Scripts.Gui.inventory import *
 from Engine.Scripts.entities import *
 from pymunk import Vec2d
 import pymunk as pm
@@ -14,6 +14,7 @@ import Engine.Scripts.gui
 import pygame_gui
 from Engine.Utilities.manager import *
 space = pm.Space()
+from Engine.Utilities.classes import classes
 class Game:
     def __init__(self):
         info("Hello, world!")        
@@ -29,14 +30,13 @@ class Game:
 
         self.sprites = Sprites(self.screen)
         Engine.Utilities.sprites.every_sprites = self.sprites
-        self.console = Console(self.screen)
-        self.inventory = Inventory()
+        classes.console = Console(self.screen)
+        classes.inventory = Inventory()
         self.done = False
         self.clock = pg.time.Clock()
         clock.main_clock = self.clock
 
         space.gravity = Vec2d(0.0, -900.0)
-        #space.iterations = 250
         space.damping = .9
         
 
