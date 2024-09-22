@@ -14,6 +14,7 @@ from pygame_gui.core.ui_element import UIElement
 from typing import Union, Dict
 from pygame_gui.core.gui_type_hints import Coordinate, RectLike
 from Engine.Params.settings import *
+from Engine.Params.runtime import runtime
 BUTTON_SIZE = 70
 IMAGE_SIZE = BUTTON_SIZE / 1.4
 class Cell:
@@ -125,7 +126,13 @@ class Inventory:
         for (_, key) in events.keyboard_list:
             if key == pg.K_e:
                 if self.selected_entity != None:
-                    self.selected_entity.instantiate(Transform(camera.mouse_pos()))
+                    pos = camera.mouse_pos()
+                    if runtime.grid_placing:
+                        pos = (
+                            ((pos[0]+25) // 50) * 50,
+                            ((pos[1]+25) // 50) * 50
+                        )
+                    self.selected_entity.instantiate(Transform(pos))
             if key == pg.K_TAB:
                 self.enabled = not self.enabled
                 for row in self.rows:
