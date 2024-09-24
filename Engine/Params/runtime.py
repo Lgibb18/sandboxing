@@ -10,7 +10,6 @@ class Runtime:
 
     def update(self):
         for (_, key) in events.keyboard_list:
-            debug(key)
             if key == pg.K_g:
                 self.grid_placing = not runtime.grid_placing
 

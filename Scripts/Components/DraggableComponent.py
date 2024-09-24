@@ -2,6 +2,7 @@ import Engine.Scripts.entities
 import Engine.Scripts.camera as camera
 from Scripts.Components.PhysicsComponent import *
 import Engine.Scripts.events as events
+from Engine.Params.runtime import runtime
 class DraggableComponent(Component):
     def __init__(self, velocity : bool = True):
         self.is_dragging = False
@@ -23,10 +24,17 @@ class DraggableComponent(Component):
                     if event.button == 1:
                         self.is_dragging = False
         if self.is_dragging:
-            entity.transform.position = vec_add(camera.mouse_pos(), self.offset)
+            pos = camera.mouse_pos() 
+            if runtime.grid_placing:
+                pos = (
+                    (pos[0] + 25) // 50 * 50,
+                    (pos[1] + 25) // 50 * 50,
+                )
+                self.offset = (0, 0)
+            entity.transform.position = vec_add(pos, self.offset)
             if (get_component(PhysicsComponent, entity)[0]):
                 b: PhysicsComponent = get_component(PhysicsComponent, entity)[1]
-                b.body.position = flipy(vec_add(camera.mouse_pos(), self.offset))
+                b.body.position = flipy(vec_add(pos, self.offset))
                 if self.velocity:
                     b.shape.body.velocity = Vec2d(self.mrel[0] * 5, -self.mrel[1] * 5)
             self.mrel = camera.main.mouse_rel
