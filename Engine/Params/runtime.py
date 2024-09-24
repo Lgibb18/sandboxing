@@ -1,18 +1,17 @@
 from Engine.Params.loop import *
-from dataclasses import dataclass
-from Engine.Scripts.events import *
+import Engine.Scripts.events as events
+import pygame as pg
 from Engine.Utilities.logger import *
-@dataclass
 class Runtime:
     """Every runtime vars"""
-    grid_placing : bool = False
+    def __init__(self):
+        sign_update(self.update)
+        self.grid_placing : bool = False
+
+    def update(self):
+        for (_, key) in events.keyboard_list:
+            debug(key)
+            if key == pg.K_g:
+                self.grid_placing = not runtime.grid_placing
 
 runtime = Runtime()
-
-@Update
-def update():
-    for (event, key) in keyboard_list:
-        if key == pg.K_g:
-            runtime.grid_placing = not runtime.grid_placing
-            debug(runtime.grid_placing)
-            

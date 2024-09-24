@@ -1,5 +1,6 @@
 import importlib.util
 import pygame as pg
+import Engine.Scripts.entities as entities
 
 
 class Transform:
@@ -54,6 +55,15 @@ class Entity:
         for component in self.components:
             if component.active:
                 component.Start(self)
+        entities.created_entities.append(self)
+    def destroy(self):
+        entities.created_entities.remove(self)
+        for component in self.components:
+            component.Destroy(self)
+            del component
+        self.components = None
+        self.created = False
+        del self
     def update(self):
         if self.created:
             for component in self.components:

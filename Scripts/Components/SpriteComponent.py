@@ -5,6 +5,7 @@ from Engine.Params.settings import *
 class SpriteComponent(pg.sprite.Sprite, Component):
 
     def resize_by_pix(self, surface : pg.Surface, size : int):
+        if not self.resize: return surface
         count = min(size, 128)
         if count > 16:
             surface = self.resize_by_pix(surface, 16)
@@ -15,10 +16,12 @@ class SpriteComponent(pg.sprite.Sprite, Component):
         return surface
 
 
-    def __init__(self, surface : pg.Surface, spriteLayer: int = 4, scale: tuple[float, float] = (1,1)):
+    def __init__(self, surface : pg.Surface, spriteLayer: int = 4, scale: tuple[float, float] = (1,1), resize : bool = True):
         self.spriteLayer = spriteLayer
+        self.resize = resize
         self.surface = self.resize_by_pix(surface, Settings.spriteReso)
         self.scale = scale
+        self.visible = True
         if(spriteLayer > 8 or spriteLayer < 0):
             raise Exception(f"layer {spriteLayer} not in range (0,8)")
 
@@ -30,15 +33,17 @@ class SpriteComponent(pg.sprite.Sprite, Component):
         self.rect = self.image.get_rect(center=entity.transform.position)
         sprites.every_sprites.all_sprites[self.spriteLayer].add(self)
 
+    def Destroy(self, entity: Entity):
+        sprites.every_sprites.all_sprites[self.spriteLayer].remove(self)
+
 
     def Update(self, entity: Entity):
-        
-        
+        if self.visible and not self in sprites.every_sprites.all_sprites[self.spriteLayer]:
+            sprites.every_sprites.all_sprites[self.spriteLayer].add(self)
+        if not self.visible and self in sprites.every_sprites.all_sprites[self.spriteLayer]:
+            sprites.every_sprites.all_sprites[self.spriteLayer].remove(self)
         self.rect.center = entity.transform.position
         if entity.transform.get_prev_rotation() != entity.transform.rotation:
             self.image = pg.transform.rotate(self.orig_image, entity.transform.rotation)
             entity.transform.set_rotation(entity.transform.rotation)
         self.rect = self.image.get_rect(center=self.rect.center)
-        if entity.transform.position[1] > 2000:
-            self.kill()
-

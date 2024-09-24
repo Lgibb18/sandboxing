@@ -15,6 +15,8 @@ from typing import Union, Dict
 from pygame_gui.core.gui_type_hints import Coordinate, RectLike
 from Engine.Params.settings import *
 from Engine.Params.runtime import runtime
+from Engine.Scripts.component import *
+from Scripts.Components.SpriteComponent import *
 BUTTON_SIZE = 70
 IMAGE_SIZE = BUTTON_SIZE / 1.4
 class Cell:
@@ -76,6 +78,10 @@ class Row:
 
 class Inventory:
     def __init__(self) -> None:
+        self.grid = Instantiate("grid", Transform())
+        for comp in self.grid.components:
+            if comp.__class__.__name__ == "SpriteComponent":
+                self.grid_sprite = comp
         sign_update(self.update)
         resolution = pg.display.get_window_size()
         self.enabled = True
@@ -103,6 +109,7 @@ class Inventory:
         self.rows.append(row)
         i = 0
         for entity in all_entities.values():
+            if not entity.canBeInMenu: continue
             i += 1
             if i > self.max_row_length:
                 row = Row(self.panel, row.panel)
@@ -113,6 +120,8 @@ class Inventory:
         self.selected_entity = self.cells[0].entity
 
     def update(self):
+        self.grid_sprite.visible = runtime.grid_placing
+                
         resolution = pg.display.get_window_size()
         self.max_row_length = (resolution[0] / 5) // BUTTON_SIZE
         for cell in self.cells:

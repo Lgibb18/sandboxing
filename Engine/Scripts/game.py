@@ -12,6 +12,7 @@ from Engine.Utilities.logger import *
 from Engine.Params.loop import *
 import pygame_gui
 from Engine.Params.manager import *
+import Engine.Params.runtime as rn
 space = pm.Space()
 from Engine.Params.classes import classes
 class Game:
@@ -39,7 +40,7 @@ class Game:
         space.damping = .9
         
 
-        Instantiate("map", Transform((self.resolution[0] / 2,self.resolution[1]), (self.resolution[0]*50, 100)))
+        Instantiate("map", Transform((self.resolution[0] / 2,self.resolution[1]+5), (self.resolution[0]*50, 100)))
 
         self.dt = 0
         self.current_fps = 0
@@ -67,9 +68,6 @@ class Game:
             if event.type == pg.QUIT:
                 self.done = True
 
-
-
-    
     def run_logic(self):
         if self.current_fps > 0:
             space.iterations = Settings.iterations

@@ -16,7 +16,7 @@ class PhysicsComponent(Component):
         entity.transform.position = flipy(entity.transform.position)
         moment = pm.moment_for_box(self.mass, (entity.transform.scale[0], entity.transform.scale[1]))
         self.body = pm.Body(self.mass, moment, self.bodyType)
-        self.shape = pm.Poly.create_box(self.body, (entity.transform.scale[0]-1, entity.transform.scale[1]-1))
+        self.shape = pm.Poly.create_box(self.body, (entity.transform.scale[0], entity.transform.scale[1]))
         self.shape.friction = self.friction
         self.shape.elasticity = self.elasticity
         self.body.position = entity.transform.position
@@ -24,10 +24,8 @@ class PhysicsComponent(Component):
         self.space.add(self.body, self.shape)
         entity.transform.position = flipy(self.body.position)
         entity.transform.rotation = math.degrees(self.body.angle)
+    def Destroy(self, entity: Entity):
+        self.space.remove(self.body)
     def Update(self, entity: Entity):
         entity.transform.position = flipy(self.body.position)
         entity.transform.rotation = math.degrees(self.body.angle)
-        if entity.transform.position[1] > 2000:
-            try:
-                self.space.remove(self.body, self.shape)
-            except: pass

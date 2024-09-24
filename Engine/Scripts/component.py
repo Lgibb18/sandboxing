@@ -12,6 +12,9 @@ class Component:
     def Update(self, entity: Entity):
         pass
 
+    def Destroy(self, entity: Entity):
+        pass
+
 def get_component(component, entity : Entity):
     if entity is not None:
         for componen in entity.components:
