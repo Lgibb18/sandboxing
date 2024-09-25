@@ -7,6 +7,7 @@ from Engine.Scripts.DefaultEntity import DefaultEntity
 from Scripts.Components.SpriteComponent import *
 from Scripts.Components.DraggableComponent import *
 from Scripts.Components.KillOnBottomComponent import *
+from Scripts.Components.OutlineComponent import *
 
 class PlanksEntity(DefaultEntity):
     canBeInMenu = True
@@ -19,7 +20,8 @@ class PlanksEntity(DefaultEntity):
                 SpriteComponent(pg.image.load("Assets/Sprites/planks.png"), LAYER_4_OBJECTS),
                 PhysicsComponent(pm.Body.DYNAMIC),
                 DraggableComponent(),
-                KillOnBottomComponent()
+                KillOnBottomComponent(),
+                OutlineComponent()
             ]
         )
         entities.all_entities[self.entity.id] = self

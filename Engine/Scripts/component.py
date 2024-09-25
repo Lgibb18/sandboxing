@@ -15,6 +15,10 @@ class Component:
     def Destroy(self, entity: Entity):
         pass
 
+    def Kill(self, entity: Entity):
+        entity.components.remove(self)
+        del self
+
 def get_component(component, entity : Entity):
     if entity is not None:
         for componen in entity.components:

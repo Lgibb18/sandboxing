@@ -51,36 +51,30 @@ class Sprites:
                 if len(Engine.Utilities.sprites.to_blit) > 8:
                     for surf in Engine.Utilities.sprites.to_blit[n]:
                         self.screen.blit(surf[0], surf[1])
+                if len(Engine.Utilities.sprites.to_blit_camera) > 8:
+                    for surf, pos in Engine.Utilities.sprites.to_blit_camera[n]:
+                        pos = (
+                            pos[0] + camera.main.pos[0] - surf.width/2,
+                            pos[1] + camera.main.pos[1] - surf.height/2
+                        )
+                        self.screen.blit(surf, pos)
             n += 1
-        Engine.Utilities.sprites.to_blit = [
-            [], # 1
-            [], # 2
-            [], # 3
-            [], # 4
-            [], # 5
-            [], # 6
-            [], # 7
-            [], # 8
-            []  # 9
-        ]
+        Engine.Utilities.sprites.to_blit = [[],[],[],[],[],[],[],[],[]]
+        Engine.Utilities.sprites.to_blit_camera = [[],[],[],[],[],[],[],[],[]]
 
 every_sprites : Sprites = None
 disabled_layers = []
-to_blit : list[list[tuple[pg.Surface, tuple[int, int]]]] = [
-    [], # 1
-    [], # 2
-    [], # 3
-    [], # 4
-    [], # 5
-    [], # 6
-    [], # 7
-    [], # 8
-    []  # 0
-]
+to_blit : list[list[tuple[pg.Surface, tuple[int, int]]]] = [[],[],[],[],[],[],[],[],[]]
+to_blit_camera : list[list[tuple[pg.Surface, tuple[int, int]]]] = [[],[],[],[],[],[],[],[],[]]
 def blit_layer(surface : pg.Surface, pos : tuple[int, int], layer : int):
     if layer not in disabled_layers:
         if layer in range(0,9):
             to_blit[layer].append((surface, pos))
+
+def blit_layer_camera(surface : pg.Surface, pos : tuple[int, int], layer : int):
+    if layer not in disabled_layers:
+        if layer in range(0,9):
+            to_blit_camera[layer].append((surface, pos))
 
 def mouse_pos():
     m = pg.mouse.get_pos()

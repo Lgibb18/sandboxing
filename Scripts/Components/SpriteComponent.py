@@ -29,7 +29,7 @@ class SpriteComponent(pg.sprite.Sprite, Component):
         super().__init__()
         self.orig_image = self.surface.convert_alpha()
         self.orig_image = pg.transform.scale(self.orig_image, (entity.transform.scale[0] * self.scale[0], entity.transform.scale[1] * self.scale[1]))
-        self.image = self.orig_image
+        self.image =self.orig_image
         self.rect = self.image.get_rect(center=entity.transform.position)
         sprites.every_sprites.all_sprites[self.spriteLayer].add(self)
 
