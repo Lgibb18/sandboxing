@@ -19,7 +19,3 @@ class DefaultEntity:
         sef = self.__class__()
         sef.entity.instantiate(transform)
         return sef.entity
-    
-
-
-DefaultEntity()
