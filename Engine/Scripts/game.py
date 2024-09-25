@@ -13,6 +13,7 @@ from Engine.Params.loop import *
 import pygame_gui
 from Engine.Params.manager import *
 import Engine.Params.runtime as rn
+import random
 space = pm.Space()
 from Engine.Params.classes import classes
 class Game:
@@ -38,6 +39,8 @@ class Game:
 
         space.gravity = Vec2d(0.0, -900.0)
         space.damping = .9
+        self.r = 0
+        if random.randint(0, 1000) == 5: self.r = random.randint(-3, 3)
         
 
         Instantiate("map", Transform((self.resolution[0] / 2,self.resolution[1]+5), (self.resolution[0]*50, 100)))
@@ -79,6 +82,11 @@ class Game:
 
     def draw(self):
         self.screen.fill(pg.Color(134, 183, 181))
+        d_rect = pg.Rect(pg.display.get_window_position()[0], pg.display.get_window_position()[1], pg.display.get_window_size()[0], pg.display.get_window_size()[1])
+        if random.randint(0, 10) == 5 and self.r != 0:
+            self.r += random.randint(-2, 2)
+        self.r = max(min(self.r, 5), -5)
+        pg.display.set_window_position((pg.display.get_window_position()[0] + self.r, pg.display.get_window_position()[1]))
         [m() for m in draw_methods]
         manager.manager.draw_ui(self.screen)
         pg.display.flip()
